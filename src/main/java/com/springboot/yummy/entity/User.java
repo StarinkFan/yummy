@@ -27,6 +27,17 @@ public class User implements Serializable {
         this.ifDelete=ifDelete;
     }
 
+    public User(int uid, String name, String password, String email, String phone, int level, double totalCost, boolean ifDelete) {
+        this.uid=uid;
+        this.password = password;
+        this.name = name;
+        this.email=email;
+        this.phone=phone;
+        this.level=level;
+        this.totalCost=totalCost;
+        this.ifDelete=ifDelete;
+    }
+
     public User() {
     }
 
@@ -34,7 +45,7 @@ public class User implements Serializable {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 

@@ -10,4 +10,6 @@ public interface UserRepository  extends JpaRepository<User,String> {
 
     User findFirstByEmail(String email);
 
+    User findFirstByUid(int uid);
+
 }

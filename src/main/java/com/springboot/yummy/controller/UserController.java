@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @Transactional
@@ -27,7 +28,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public int login(HttpServletRequest request, @RequestBody Map<String, Object> requestMap){
+    public Map<String,Object> login(@RequestBody Map<String, Object> requestMap){
         System.out.println("login");
         String email=requestMap.get("email").toString();
         String password=requestMap.get("password").toString();
@@ -78,6 +79,24 @@ public class UserController {
             userService.addUser(name, password, email, phone);
             return 0;
         }
+    }
+
+    @RequestMapping(value = "/getInfo", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Map<String,Object> getInfo(@RequestBody Map<String, Object> requestMap){
+        System.out.println("getPersonalInfo");
+        int uid= Integer.parseInt((String)requestMap.get("uid"));
+        System.out.println(uid);
+        return userService.getInfo(uid);
+    }
+
+    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean saveInfo(@RequestBody Map<String, Object> requestMap){
+        System.out.println("editPersonalInfo");
+        System.out.println(requestMap.toString());
+        userService.modifyInfo(requestMap);
+        return true;
     }
 
 }

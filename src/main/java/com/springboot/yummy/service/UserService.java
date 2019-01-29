@@ -1,6 +1,8 @@
 package com.springboot.yummy.service;
 
 
+import java.util.Map;
+
 public interface UserService {
 
     /**
@@ -9,9 +11,13 @@ public interface UserService {
      * @param password 密码
      * @return 验证通过则将用户信息返回，否则返回null
      */
-    int checkLogin(String name,String password);
+    Map<String,Object> checkLogin(String name, String password);
 
     boolean checkIfRegistered(String email);
 
     void addUser(String name, String password, String email, String phone);
+
+    Map<String,Object> getInfo(int uid);
+
+    void modifyInfo(Map<String, Object> map);
 }
