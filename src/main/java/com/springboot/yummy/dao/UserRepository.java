@@ -8,4 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository  extends JpaRepository<User,String> {
     User findFirstByEmailAndPassword(String email, String password);
 
+    User findFirstByEmail(String email);
+
 }

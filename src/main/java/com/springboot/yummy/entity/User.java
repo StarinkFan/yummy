@@ -1,13 +1,12 @@
 package com.springboot.yummy.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
     private int uid;
     private String name;
@@ -18,10 +17,9 @@ public class User implements Serializable {
     private double totalCost;
     private boolean ifDelete;
 
-    public User(int uid, String name, String password, String email, String phone, int level, double totalCost, boolean ifDelete) {
+    public User(String name, String password, String email, String phone, int level, double totalCost, boolean ifDelete) {
         this.password = password;
         this.name = name;
-        this.uid = uid;
         this.email=email;
         this.phone=phone;
         this.level=level;
