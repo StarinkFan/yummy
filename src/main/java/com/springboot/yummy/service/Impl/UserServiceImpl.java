@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
                 resultMap.put("uid",userRepository.findFirstByEmail(email).getUid());
             }
         }else{
-            resultMap.put("code", 2);
+            resultMap.put("code", 0);
         }
         return resultMap;
     }
@@ -86,11 +86,12 @@ public class UserServiceImpl implements UserService {
             int tid=ob.getInt("tid");
             int userid=ob.getInt("uid");
             String location = ob.getString("location");
+            String region = ob.getString("region");
             Target target;
             if(tid==0){
-                target=new Target(userid, location);
+                target=new Target(userid, location, region);
             }else{
-                target=new Target(tid, userid, location);
+                target=new Target(tid, userid, location, region);
             }
             targetRepository.save(target);
         }

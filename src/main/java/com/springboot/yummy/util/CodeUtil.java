@@ -2,9 +2,10 @@ package com.springboot.yummy.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 
 public class CodeUtil {
-    private static Map<String, String> codes = new HashMap<String, String>();
+    static Map<String, String> codes = new HashMap<>();
 
     private static String createNewCode(){
         String result="";
@@ -18,6 +19,8 @@ public class CodeUtil {
     public static String getNewCode(String email){
         String newCode=createNewCode();
         codes.put(email, newCode);
+        Timer timer = new Timer();
+        timer.schedule(new TimeTask1(email), 120 * 1000);
         return newCode;
     }
 

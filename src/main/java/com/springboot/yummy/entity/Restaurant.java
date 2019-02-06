@@ -11,13 +11,14 @@ public class Restaurant {
     private String idCode;
     private String password;
     private String location;
+    private String region;
     private int owner;
     private String photo;
     private String certificate;
     private boolean ifValid;
     private int kind;
 
-    public Restaurant(int rid, String name, String password, String idCode, String location, int owner, String photo, String certificate, boolean ifValid, int kind) {
+    public Restaurant(int rid, String name, String password, String idCode, String location, String region, int owner, String photo, String certificate, boolean ifValid, int kind) {
         this.password = password;
         this.name = name;
         this.rid=rid;
@@ -28,6 +29,7 @@ public class Restaurant {
         this.certificate=certificate;
         this.ifValid=ifValid;
         this.kind=kind;
+        this.region=region;
     }
 
     public Restaurant() {
@@ -71,6 +73,14 @@ public class Restaurant {
 
     public void setLocation(String location) {
         this.location=location;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.location=region;
     }
 
     public int getOwner() {
