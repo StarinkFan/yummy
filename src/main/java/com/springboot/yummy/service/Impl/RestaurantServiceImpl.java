@@ -6,6 +6,10 @@ import com.springboot.yummy.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service("RestaurantService")
 public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
@@ -13,7 +17,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public boolean addRestaurant(String name, String password, String location, String region, int owner, String photo, String certificate, String kind) {
-        int k=0;
+        int k;
         switch (kind){
             case "中餐":
                 k=1;
@@ -52,9 +56,42 @@ public class RestaurantServiceImpl implements RestaurantService {
         if(restaurant==null){
             return 0;
         }else if(restaurant.getIfValid()){
-            return 2;
-        }else{
+            return 3;
+        }else if(restaurant.getIdCode().equals("")){
             return 1;
+        }else{
+            return 2;
         }
+    }
+
+    @Override
+    public Map<String, Object> getInfo(int owner) {
+        Restaurant restaurant=restaurantRepository.findFirstByOwner(owner);
+        Map<String,Object> resultMap=new HashMap<>();
+        resultMap.put("kind", restaurant.getKind());
+        resultMap.put("name", restaurant.getName());
+        resultMap.put("password", restaurant.getPassword());
+        resultMap.put("photoSrc", restaurant.getPhoto());
+        resultMap.put("certificateSrc", restaurant.getCertificate());
+        resultMap.put("location", restaurant.getLocation());
+        resultMap.put("region", restaurant.getRegion());
+
+        return resultMap;
+    }
+
+    @Override
+    public Restaurant[] getApplications() {
+        List<Restaurant> list=restaurantRepository.findAllByIfValidAndIdCode(false, "");
+        int length=list.size();
+        Restaurant[] applications=new Restaurant[length];
+        for(int i=0;i<length;i++){
+            applications[i]=list.get(i);
+        }
+        return applications;
+    }
+
+    @Override
+    public Restaurant getApplicationDetail(int applicationId) {
+        return restaurantRepository.findFirstByRid(applicationId);
     }
 }

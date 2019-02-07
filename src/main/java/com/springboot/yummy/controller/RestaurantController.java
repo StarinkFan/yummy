@@ -1,5 +1,6 @@
 package com.springboot.yummy.controller;
 
+import com.springboot.yummy.entity.Restaurant;
 import com.springboot.yummy.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +38,25 @@ public class RestaurantController {
     public int getState(@RequestBody Map<String, Object> requestMap){
         int owner= Integer.parseInt((String)requestMap.get("owner"));
         return restaurantService.getApplyState(owner);
+    }
+
+    @RequestMapping(value = "/getInfo", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Map<String,Object> getInfo(@RequestBody Map<String, Object> requestMap){
+        int owner= Integer.parseInt((String)requestMap.get("owner"));
+        return restaurantService.getInfo(owner);
+    }
+
+    @RequestMapping(value = "/getApplications", method = RequestMethod.GET, headers = "Accept=application/json")
+    @ResponseBody
+    public Restaurant[] getApplications(){
+        return restaurantService.getApplications();
+    }
+
+    @RequestMapping(value = "/getApplicationDetail", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Restaurant getApplicationDetail(@RequestBody Map<String, Object> requestMap){
+        int applicationId= Integer.parseInt((String)requestMap.get("applicationId"));
+        return restaurantService.getApplicationDetail(applicationId);
     }
 }
