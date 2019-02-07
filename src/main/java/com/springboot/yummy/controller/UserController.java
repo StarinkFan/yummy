@@ -94,9 +94,16 @@ public class UserController {
     @ResponseBody
     public boolean saveInfo(@RequestBody Map<String, Object> requestMap){
         System.out.println("editPersonalInfo");
-        System.out.println(requestMap.toString());
         userService.modifyInfo(requestMap);
         return true;
+    }
+
+    @RequestMapping(value = "/logoff", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean logoff(@RequestBody Map<String, Object> requestMap){
+        System.out.println("logoff");
+        int uid= Integer.parseInt((String)requestMap.get("uid"));
+        return userService.logoff(uid);
     }
 
 }

@@ -110,4 +110,17 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public boolean logoff(int uid) {
+        try{
+            User user=userRepository.findFirstByUid(uid);
+            user.setIfDelete(true);
+            userRepository.save(user);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

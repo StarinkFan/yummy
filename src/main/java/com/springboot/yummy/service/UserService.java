@@ -20,4 +20,6 @@ public interface UserService {
     Map<String,Object> getInfo(int uid);
 
     void modifyInfo(Map<String, Object> map);
+
+    boolean logoff(int uid);
 }
