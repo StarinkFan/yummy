@@ -1,16 +1,10 @@
 package com.springboot.yummy.controller;
 
 import com.springboot.yummy.service.AddressService;
-import com.springboot.yummy.service.UserService;
-import com.springboot.yummy.util.HttpAPIService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 @Transactional

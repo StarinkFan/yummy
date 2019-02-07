@@ -1,7 +1,9 @@
 package com.springboot.yummy.service.Impl;
 
+import com.springboot.yummy.dao.RestaurantRepository;
 import com.springboot.yummy.dao.TargetRepository;
 import com.springboot.yummy.dao.UserRepository;
+import com.springboot.yummy.entity.Restaurant;
 import com.springboot.yummy.entity.Target;
 import com.springboot.yummy.entity.User;
 import com.springboot.yummy.service.UserService;
@@ -18,6 +20,8 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     @Autowired
     TargetRepository targetRepository;
+    @Autowired
+    RestaurantRepository restaurantRepository;
 
 
     @Override
@@ -29,10 +33,17 @@ public class UserServiceImpl implements UserService {
                 resultMap.put("code", 3);
             }else{
                 resultMap.put("code", 1);
-                resultMap.put("uid",userRepository.findFirstByEmail(email).getUid());
+                resultMap.put("uid",user.getUid());
             }
         }else{
-            resultMap.put("code", 0);
+            String idCode=email;
+            Restaurant restaurant=restaurantRepository.findFirstByIdCode(idCode);
+            if(restaurant!=null){
+                resultMap.put("code", 2);
+                resultMap.put("rid", restaurant.getRid());
+            }else{
+                resultMap.put("code", 0);
+            }
         }
         return resultMap;
     }
@@ -40,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkIfRegistered(String email) {
         User user=userRepository.findFirstByEmail(email);
-        if(user!=null&&(!user.getIfDelete())){
+        if(user!=null){
             return true;
         }else{
             return false;

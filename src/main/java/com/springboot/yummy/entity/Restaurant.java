@@ -32,6 +32,19 @@ public class Restaurant {
         this.region=region;
     }
 
+    public Restaurant(String name, String password, String idCode, String location, String region, int owner, String photo, String certificate, boolean ifValid, int kind) {
+        this.password = password;
+        this.name = name;
+        this.idCode=idCode;
+        this.location=location;
+        this.owner=owner;
+        this.photo=photo;
+        this.certificate=certificate;
+        this.ifValid=ifValid;
+        this.kind=kind;
+        this.region=region;
+    }
+
     public Restaurant() {
     }
 
