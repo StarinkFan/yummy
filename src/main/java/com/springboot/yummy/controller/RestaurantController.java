@@ -21,7 +21,8 @@ public class RestaurantController {
 
     @RequestMapping(value = "/apply", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public boolean login(@RequestBody Map<String, Object> requestMap){
+    public boolean apply(@RequestBody Map<String, Object> requestMap){
+        int rid= (Integer)requestMap.get("rid");
         String name=requestMap.get("name").toString();
         String kind=requestMap.get("kind").toString();
         String password=requestMap.get("password").toString();
@@ -30,7 +31,7 @@ public class RestaurantController {
         int owner= Integer.parseInt((String)requestMap.get("owner"));
         String certificate=requestMap.get("certificate").toString();
         String photo=requestMap.get("photo").toString();
-        return restaurantService.addRestaurant(name, password, location, region, owner, photo, certificate, kind);
+        return restaurantService.addRestaurant(rid, name, password, location, region, owner, photo, certificate, kind);
     }
 
     @RequestMapping(value = "/getState", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -53,11 +54,11 @@ public class RestaurantController {
         return restaurantService.getApplications();
     }
 
-    @RequestMapping(value = "/getApplicationDetail", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/getRestaurantDetail", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public Restaurant getApplicationDetail(@RequestBody Map<String, Object> requestMap){
-        int applicationId= Integer.parseInt((String)requestMap.get("applicationId"));
-        return restaurantService.getApplicationDetail(applicationId);
+    public Restaurant getRestaurantDetail(@RequestBody Map<String, Object> requestMap){
+        int rid= Integer.parseInt((String)requestMap.get("rid"));
+        return restaurantService.getApplicationDetail(rid);
     }
 
     @RequestMapping(value = "/pass", method = RequestMethod.POST, headers = "Accept=application/json")

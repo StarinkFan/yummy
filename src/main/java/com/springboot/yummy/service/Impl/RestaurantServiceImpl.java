@@ -16,7 +16,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     RestaurantRepository restaurantRepository;
 
     @Override
-    public boolean addRestaurant(String name, String password, String location, String region, int owner, String photo, String certificate, String kind) {
+    public boolean addRestaurant(int rid, String name, String password, String location, String region, int owner, String photo, String certificate, String kind) {
         int k;
         switch (kind){
             case "中餐":
@@ -41,7 +41,12 @@ public class RestaurantServiceImpl implements RestaurantService {
                 return false;
         }
         try{
-            Restaurant restaurant=new Restaurant(name, password, "", location, region, owner, photo, certificate, false, k);
+            Restaurant restaurant=null;
+            if(rid==0){
+                restaurant=new Restaurant(name, password, "", location, region, owner, photo, certificate, false, k);
+            }else{
+                restaurant=new Restaurant(rid, name, password, "", location, region, owner, photo, certificate, false, k);
+            }
             restaurantRepository.save(restaurant);
             return true;
         }catch (Exception e){
@@ -68,6 +73,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Map<String, Object> getInfo(int owner) {
         Restaurant restaurant=restaurantRepository.findFirstByOwner(owner);
         Map<String,Object> resultMap=new HashMap<>();
+        resultMap.put("rid", restaurant.getRid());
         resultMap.put("kind", restaurant.getKind());
         resultMap.put("name", restaurant.getName());
         resultMap.put("password", restaurant.getPassword());
