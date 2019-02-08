@@ -14,4 +14,10 @@ public interface RestaurantService {
     Restaurant[] getApplications();
 
     Restaurant getApplicationDetail(int applicationId);
+
+    boolean pass(int applicationId);
+
+    boolean veto(int applicationId);
+
+    String getIdCode(int owner);
 }

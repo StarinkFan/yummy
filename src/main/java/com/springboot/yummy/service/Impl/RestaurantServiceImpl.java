@@ -94,4 +94,37 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant getApplicationDetail(int applicationId) {
         return restaurantRepository.findFirstByRid(applicationId);
     }
+
+    @Override
+    public boolean pass(int applicationId) {
+        Restaurant restaurant=restaurantRepository.findFirstByRid(applicationId);
+        setIdCode(restaurant);
+        restaurant.setIfValid(true);
+        restaurantRepository.save(restaurant);
+        return true;
+    }
+
+    @Override
+    public boolean veto(int applicationId) {
+        Restaurant restaurant=restaurantRepository.findFirstByRid(applicationId);
+        setIdCode(restaurant);
+        restaurantRepository.save(restaurant);
+        return true;
+    }
+
+    @Override
+    public String getIdCode(int owner) {
+        return restaurantRepository.findFirstByOwner(owner).getIdCode();
+    }
+
+    private void setIdCode(Restaurant restaurant){
+        String idCode=""+restaurant.getRid();
+        int length=idCode.length();
+        for(int i=0;i<6-length;i++){
+            idCode="0"+idCode;
+        }
+        idCode="1"+idCode;
+        restaurant.setIdCode(idCode);
+    }
+
 }

@@ -59,4 +59,25 @@ public class RestaurantController {
         int applicationId= Integer.parseInt((String)requestMap.get("applicationId"));
         return restaurantService.getApplicationDetail(applicationId);
     }
+
+    @RequestMapping(value = "/pass", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean pass(@RequestBody Map<String, Object> requestMap){
+        int applicationId= Integer.parseInt((String)requestMap.get("applicationId"));
+        return restaurantService.pass(applicationId);
+    }
+
+    @RequestMapping(value = "/veto", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean veto(@RequestBody Map<String, Object> requestMap){
+        int applicationId= Integer.parseInt((String)requestMap.get("applicationId"));
+        return restaurantService.veto(applicationId);
+    }
+
+    @RequestMapping(value = "/getIdCode", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public String getIdCode(@RequestBody Map<String, Object> requestMap){
+        int owner= Integer.parseInt((String)requestMap.get("owner"));
+        return restaurantService.getIdCode(owner);
+    }
 }
