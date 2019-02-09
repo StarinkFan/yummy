@@ -42,7 +42,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         try{
             Restaurant restaurant=null;
-            if(rid==0){
+            if(rid<0){
                 restaurant=new Restaurant(name, password, "", location, region, owner, photo, certificate, false, k);
             }else{
                 restaurant=new Restaurant(rid, name, password, "", location, region, owner, photo, certificate, false, k);
