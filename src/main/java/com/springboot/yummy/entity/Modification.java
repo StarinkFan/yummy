@@ -81,7 +81,7 @@ public class Modification {
     }
 
     public void setRegion(String region) {
-        this.location=region;
+        this.region=region;
     }
 
     public int getRid() {

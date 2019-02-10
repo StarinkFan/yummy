@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ModificationRepository  extends JpaRepository<Modification,String> {
     Modification findFirstByRid(int rid);
+    Modification findFirstByMid(int mid);
 }

@@ -1,5 +1,6 @@
 package com.springboot.yummy.controller;
 
+import com.springboot.yummy.entity.Modification;
 import com.springboot.yummy.service.ModificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +38,32 @@ public class ModificationController {
         String certificate=requestMap.get("certificate").toString();
         String photo=requestMap.get("photo").toString();
         return modificationService.addModification(name, password, location, region, rid, photo, certificate, kind);
+    }
+
+    @RequestMapping(value = "/getModifications", method = RequestMethod.GET, headers = "Accept=application/json")
+    @ResponseBody
+    public Modification[] getModifications(){
+        return modificationService.getModifications();
+    }
+
+    @RequestMapping(value = "/getModificationDetail", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Modification getModificationDetail(@RequestBody Map<String, Object> requestMap){
+        int mid= Integer.parseInt((String)requestMap.get("mid"));
+        return modificationService.getModificationDetail(mid);
+    }
+
+    @RequestMapping(value = "/pass", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean pass(@RequestBody Map<String, Object> requestMap){
+        int mid= Integer.parseInt((String)requestMap.get("mid"));
+        return modificationService.pass(mid);
+    }
+
+    @RequestMapping(value = "/veto", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean veto(@RequestBody Map<String, Object> requestMap){
+        int mid= Integer.parseInt((String)requestMap.get("mid"));
+        return modificationService.veto(mid);
     }
 }

@@ -93,7 +93,7 @@ public class Restaurant {
     }
 
     public void setRegion(String region) {
-        this.location=region;
+        this.region=region;
     }
 
     public int getOwner() {
