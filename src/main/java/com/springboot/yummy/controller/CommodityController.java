@@ -26,10 +26,17 @@ public class CommodityController {
         return commodityService.getCommodities(rid);
     }
 
-    @RequestMapping(value = "/saveCommodities", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/saveCommodity", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public boolean saveCommodities(@RequestBody Map<String, Object> requestMap){
-        return commodityService.saveCommodities(requestMap);
+    public int saveCommodity(@RequestBody Map<String, Object> requestMap){
+        return commodityService.saveCommodity(requestMap);
+    }
+
+    @RequestMapping(value = "/deleteCommodity", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean deleteCommodity(@RequestBody Map<String, Object> requestMap){
+        int cid= (Integer)requestMap.get("cid");
+        return commodityService.deleteCommodity(cid);
     }
 
 

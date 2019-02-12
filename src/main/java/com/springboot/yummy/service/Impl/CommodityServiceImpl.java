@@ -31,28 +31,34 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public boolean saveCommodities(Map<String, Object> map) {
+    public int saveCommodity(Map<String, Object> map) {
         try {
-            JSONArray list = JSONArray.fromObject(map.get("commodities"));
-            Iterator<Object> it = list.iterator();
-            while (it.hasNext()) {
-                JSONObject ob = (JSONObject) it.next();
-                int rid=ob.getInt("rid");
-                int cid=ob.getInt("cid");
-                String name = ob.getString("name");
-                Double price = Double.parseDouble(ob.getString("region"));
-                int amount= Integer.parseInt(ob.getString("amount"));
-                int sold=ob.getInt("sold");
-                LocalDate beginDate=LocalDate.parse(ob.getString("beginDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                LocalDate endDate=LocalDate.parse(ob.getString("endDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                Commodity commodity;
-                if(cid==-1){
-                    commodity=new Commodity(rid, name, price, amount, sold, beginDate, endDate);
-                }else{
-                    commodity=new Commodity(cid, rid, name, price, amount, sold, beginDate, endDate);
-                }
-                commodityRepository.save(commodity);
+            int cid= (Integer)map.get("cid");
+            int rid= (Integer)map.get("rid");
+            String name=map.get("name").toString();
+            Double price = Double.parseDouble(map.get("price").toString());
+            int amount= Integer.parseInt((String)map.get("amount"));
+            int sold= (Integer)map.get("sold");
+            LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate endDate=LocalDate.parse(map.get("endDate").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            Commodity commodity;
+            if(cid==-1){
+                commodity=new Commodity(rid, name, price, amount, sold, beginDate, endDate);
+            }else{
+                commodity=new Commodity(cid, rid, name, price, amount, sold, beginDate, endDate);
             }
+            Commodity savedCommodity=commodityRepository.save(commodity);
+            return savedCommodity.getCid();
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    @Override
+    public boolean deleteCommodity(int cid) {
+        try {
+            commodityRepository.deleteByCid(cid);
             return true;
         }catch (Exception e){
             e.printStackTrace();

@@ -8,5 +8,7 @@ import java.util.Map;
 public interface CommodityService {
     Commodity[] getCommodities(int rid);
 
-    boolean saveCommodities(Map<String, Object> map);
+    int saveCommodity(Map<String, Object> map);
+
+    boolean deleteCommodity(int cid);
 }
