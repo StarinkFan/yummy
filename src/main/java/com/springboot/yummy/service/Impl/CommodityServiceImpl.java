@@ -40,12 +40,10 @@ public class CommodityServiceImpl implements CommodityService {
             int sold= (Integer)map.get("sold");
             LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
             LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
-            System.out.println(beginDate.toString());
             Commodity commodity;
             commodity=new Commodity(rid, name, price, amount, sold, beginDate, endDate);
             if(!hasSameCommodity(commodity)){
                 Commodity savedCommodity=commodityRepository.save(commodity);
-                System.out.println(savedCommodity.getCid());
                 return savedCommodity.getCid();
             }else{
                 return -2;
