@@ -1,5 +1,7 @@
 package com.springboot.yummy.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -14,7 +16,9 @@ public class Commodity {
     private double price;
     private int amount;
     private int sold;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate beginDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     public Commodity(int rid, String name, double price, int amount, int sold, LocalDate beginDate, LocalDate endDate){
