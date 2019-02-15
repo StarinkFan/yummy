@@ -1,19 +1,31 @@
 package com.springboot.yummy.service.Impl;
 
 import com.springboot.yummy.dao.CommodityRepository;
+import com.springboot.yummy.dao.PackageItemRepository;
+import com.springboot.yummy.dao.PackageRepository;
 import com.springboot.yummy.entity.Commodity;
+import com.springboot.yummy.entity.Package;
+import com.springboot.yummy.entity.PackageItem;
 import com.springboot.yummy.service.PackageService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Service("PackageService")
 public class PackageServiceImpl implements PackageService {
     @Autowired
     CommodityRepository commodityRepository;
+    @Autowired
+    PackageRepository packageRepository;
+    @Autowired
+    PackageItemRepository packageItemRepository;
 
     @Override
     public Commodity[] getOptions(int rid, LocalDate beginDate, LocalDate endDate) {
@@ -30,5 +42,56 @@ public class PackageServiceImpl implements PackageService {
             options[i]=items.get(i);
         }
         return options;
+    }
+
+    @Override
+    public boolean savePackage(Map<String, Object> map) {
+        try {
+            int rid= (Integer)map.get("rid");
+            String name=map.get("name").toString();
+            Double price = Double.parseDouble(map.get("price").toString());
+            LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
+            LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
+            Package aPackage=packageRepository.save(new Package(rid, name, price, beginDate, endDate));
+            int pid=aPackage.getPid();
+
+            JSONArray list = JSONArray.fromObject(map.get("items"));
+            Iterator<Object> it = list.iterator();
+            while (it.hasNext()) {
+                JSONObject ob = (JSONObject) it.next();
+                int cid=ob.getInt("cid");
+                int num=ob.getInt("num");
+                String iname = ob.getString("name");
+                Double iprice = ob.getDouble("price");
+                packageItemRepository.save(new PackageItem(pid, cid, num, iname, iprice));
+            }
+
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Package[] getPackages(int rid) {
+        List<Package> list = packageRepository.findByRid(rid);
+        int length=list.size();
+        Package[] packages=new Package[length];
+        for(int i=0;i<length;i++){
+            packages[i]=list.get(i);
+        }
+        return packages;
+    }
+
+    @Override
+    public PackageItem[] getPackageItems(int pid) {
+        List<PackageItem> list = packageItemRepository.findByPid(pid);
+        int length=list.size();
+        PackageItem[] packageItems=new PackageItem[length];
+        for(int i=0;i<length;i++){
+            packageItems[i]=list.get(i);
+        }
+        return packageItems;
     }
 }
