@@ -30,6 +30,8 @@ public class PackageItem {
         this.price = price;
     }
 
+    public PackageItem(){}
+
     public int getPiid() {
         return piid;
     }

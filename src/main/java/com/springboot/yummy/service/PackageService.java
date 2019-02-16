@@ -2,6 +2,7 @@ package com.springboot.yummy.service;
 
 import com.springboot.yummy.entity.Commodity;
 import com.springboot.yummy.entity.Package;
+import com.springboot.yummy.entity.PackageDetail;
 import com.springboot.yummy.entity.PackageItem;
 
 import java.time.LocalDate;
@@ -12,7 +13,8 @@ public interface PackageService {
 
     boolean savePackage(Map<String, Object> map);
 
-    Package[] getPackages(int rid);
+    PackageDetail[] getPackages(int rid);
 
-    PackageItem[] getPackageItems(int pid);
+    boolean deletePackage(int pid);
+
 }

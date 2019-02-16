@@ -2,41 +2,37 @@ package com.springboot.yummy.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "packages")
-public class Package {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+public class PackageDetail {
     private int pid;
     private int rid;
     private String name;
     private double price;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate beginDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+    private PackageItem[] items;
 
-    public Package(int rid, String name, double price, LocalDate beginDate, LocalDate endDate) {
+    public PackageDetail(int rid, String name, double price, LocalDate beginDate, LocalDate endDate, PackageItem[] items) {
         this.rid = rid;
         this.name = name;
         this.price = price;
         this.beginDate = beginDate;
         this.endDate = endDate;
+        this.items=items;
     }
 
-    public Package(int pid, int rid, String name, double price, LocalDate beginDate, LocalDate endDate) {
+    public PackageDetail(int pid, int rid, String name, double price, LocalDate beginDate, LocalDate endDate, PackageItem[] items) {
         this.pid=pid;
         this.rid = rid;
         this.name = name;
         this.price = price;
         this.beginDate = beginDate;
         this.endDate = endDate;
+        this.items=items;
     }
 
-    public Package(){}
+    public PackageDetail(){}
 
     public int getPid() {
         return pid;
@@ -84,5 +80,13 @@ public class Package {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public PackageItem[] getItems() {
+        return items;
+    }
+
+    public void setItems(PackageItem[] items) {
+        this.items = items;
     }
 }

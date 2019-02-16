@@ -2,6 +2,7 @@ package com.springboot.yummy.controller;
 
 import com.springboot.yummy.entity.Commodity;
 import com.springboot.yummy.entity.Package;
+import com.springboot.yummy.entity.PackageDetail;
 import com.springboot.yummy.entity.PackageItem;
 import com.springboot.yummy.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,16 +40,15 @@ public class PackageController {
 
     @RequestMapping(value = "/getPackages", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public Package[] getPackages(@RequestBody Map<String, Object> requestMap){
+    public PackageDetail[] getPackages(@RequestBody Map<String, Object> requestMap){
         int rid= Integer.parseInt((String)requestMap.get("rid"));
         return packageService.getPackages(rid);
     }
 
-    @RequestMapping(value = "/getPackageItems", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/deletePackage", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public PackageItem[] getPackageItems(@RequestBody Map<String, Object> requestMap){
-        int pid= Integer.parseInt((String)requestMap.get("pid"));
-        return packageService.getPackageItems(pid);
+    public boolean deletePackage(@RequestBody Map<String, Object> requestMap){
+        int pid= (Integer)requestMap.get("pid");
+        return packageService.deletePackage(pid);
     }
-
 }

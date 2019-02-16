@@ -5,6 +5,7 @@ import com.springboot.yummy.dao.PackageItemRepository;
 import com.springboot.yummy.dao.PackageRepository;
 import com.springboot.yummy.entity.Commodity;
 import com.springboot.yummy.entity.Package;
+import com.springboot.yummy.entity.PackageDetail;
 import com.springboot.yummy.entity.PackageItem;
 import com.springboot.yummy.service.PackageService;
 import net.sf.json.JSONArray;
@@ -74,18 +75,34 @@ public class PackageServiceImpl implements PackageService {
     }
 
     @Override
-    public Package[] getPackages(int rid) {
+    public PackageDetail[] getPackages(int rid) {
         List<Package> list = packageRepository.findByRid(rid);
+
         int length=list.size();
-        Package[] packages=new Package[length];
+        PackageDetail[] packages=new PackageDetail[length];
         for(int i=0;i<length;i++){
-            packages[i]=list.get(i);
+            Package aPackage=list.get(i);
+            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getPrice(), aPackage.getBeginDate(), aPackage.getEndDate(), getPackageItems(aPackage.getPid()));
         }
         return packages;
     }
 
     @Override
-    public PackageItem[] getPackageItems(int pid) {
+    public boolean deletePackage(int pid) {
+        try{
+            packageRepository.delete(packageRepository.findByPid(pid));
+            List<PackageItem> items=packageItemRepository.findByPid(pid);
+            for(PackageItem item: items){
+                packageItemRepository.delete(item);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private PackageItem[] getPackageItems(int pid) {
         List<PackageItem> list = packageItemRepository.findByPid(pid);
         int length=list.size();
         PackageItem[] packageItems=new PackageItem[length];
