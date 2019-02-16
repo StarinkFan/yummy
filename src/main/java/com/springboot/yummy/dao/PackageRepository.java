@@ -9,6 +9,6 @@ import java.util.List;
 @Transactional
 public interface PackageRepository extends JpaRepository<Package, String> {
     List<Package> findByRid(int rid);
-    Package findByPid(int pid);
+    void deleteByPid(int pid);
 
 }

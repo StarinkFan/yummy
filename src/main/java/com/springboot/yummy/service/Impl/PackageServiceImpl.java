@@ -53,7 +53,11 @@ public class PackageServiceImpl implements PackageService {
             Double price = Double.parseDouble(map.get("price").toString());
             LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
             LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
-            Package aPackage=packageRepository.save(new Package(rid, name, price, beginDate, endDate));
+            Package aPackage=new Package(rid, name, price, beginDate, endDate);
+            if(hasSamePackage(aPackage)){
+               return false;
+            }
+            aPackage=packageRepository.save(aPackage);
             int pid=aPackage.getPid();
 
             JSONArray list = JSONArray.fromObject(map.get("items"));
@@ -90,7 +94,7 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public boolean deletePackage(int pid) {
         try{
-            packageRepository.delete(packageRepository.findByPid(pid));
+            packageRepository.deleteByPid(pid);
             List<PackageItem> items=packageItemRepository.findByPid(pid);
             for(PackageItem item: items){
                 packageItemRepository.delete(item);
@@ -110,5 +114,15 @@ public class PackageServiceImpl implements PackageService {
             packageItems[i]=list.get(i);
         }
         return packageItems;
+    }
+
+    private boolean hasSamePackage(Package aPackage){
+        List<Package> list=packageRepository.findByRid(aPackage.getRid());
+        for(Package p: list){
+            if(p.getName().equals(aPackage.getName())&& !(p.getEndDate().isBefore(aPackage.getBeginDate())||p.getBeginDate().isAfter(aPackage.getEndDate())) ){
+                return true;
+            }
+        }
+        return false;
     }
 }
