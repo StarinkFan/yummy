@@ -1,6 +1,7 @@
 package com.springboot.yummy.service;
 
 import com.springboot.yummy.entity.Restaurant;
+import com.springboot.yummy.entity.RestaurantDetail;
 
 import java.util.Map;
 
@@ -20,4 +21,8 @@ public interface RestaurantService {
     boolean veto(int applicationId);
 
     String getIdCode(int owner);
+
+    Restaurant[] getRestaurantList();
+
+    RestaurantDetail getRestaurantDetailByUser(int rid);
 }

@@ -12,4 +12,5 @@ public interface RestaurantRepository  extends JpaRepository<Restaurant,String> 
     Restaurant findFirstByOwner(int owner);
     Restaurant findFirstByIdCode(String idCode);
     List<Restaurant> findAllByIfValidAndIdCode(boolean ifValid, String idCode);
+    List<Restaurant> findByIfValid(boolean ifValid);
 }

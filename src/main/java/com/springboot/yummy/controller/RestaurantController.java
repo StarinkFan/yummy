@@ -1,6 +1,7 @@
 package com.springboot.yummy.controller;
 
 import com.springboot.yummy.entity.Restaurant;
+import com.springboot.yummy.entity.RestaurantDetail;
 import com.springboot.yummy.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,5 +81,18 @@ public class RestaurantController {
     public String getIdCode(@RequestBody Map<String, Object> requestMap){
         int owner= Integer.parseInt((String)requestMap.get("owner"));
         return restaurantService.getIdCode(owner);
+    }
+
+    @RequestMapping(value = "/getRestaurantList", method = RequestMethod.GET, headers = "Accept=application/json")
+    @ResponseBody
+    public Restaurant[] getRestaurantList(){
+        return restaurantService.getRestaurantList();
+    }
+
+    @RequestMapping(value = "/getRestaurantDetailByUser", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public RestaurantDetail getRestaurantDetailByUser(@RequestBody Map<String, Object> requestMap){
+        int rid= Integer.parseInt((String)requestMap.get("rid"));
+        return restaurantService.getRestaurantDetailByUser(rid);
     }
 }

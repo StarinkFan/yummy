@@ -1,11 +1,15 @@
 package com.springboot.yummy.service.Impl;
 
-import com.springboot.yummy.dao.RestaurantRepository;
-import com.springboot.yummy.entity.Restaurant;
+import com.springboot.yummy.dao.*;
+import com.springboot.yummy.entity.*;
+import com.springboot.yummy.entity.Package;
+import com.springboot.yummy.service.PackageService;
 import com.springboot.yummy.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +18,14 @@ import java.util.Map;
 public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    CommodityRepository commodityRepository;
+    @Autowired
+    PackageRepository packageRepository;
+    @Autowired
+    PackageItemRepository packageItemRepository;
+    @Autowired
+    DiscountRepository discountRepository;
 
     @Override
     public boolean addRestaurant(int rid, String name, String password, String location, String region, int owner, String photo, String certificate, String kind) {
@@ -123,6 +135,66 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findFirstByOwner(owner).getIdCode();
     }
 
+    @Override
+    public Restaurant[] getRestaurantList() {
+        List<Restaurant> list=restaurantRepository.findByIfValid(true);
+        int length=list.size();
+        Restaurant[] restaurants=new Restaurant[length];
+        for(int i=0;i<length;i++){
+            restaurants[i]=list.get(i);
+        }
+        return restaurants;
+    }
+
+    @Override
+    public RestaurantDetail getRestaurantDetailByUser(int rid) {
+        Restaurant restaurant=restaurantRepository.findFirstByRid(rid);
+        List<Commodity> clist1=commodityRepository.findByRid(rid);
+        List<Commodity> clist2=new ArrayList<>();
+        for(Commodity c:clist1){
+            if(!(c.getEndDate().isBefore(LocalDate.now())||c.getBeginDate().isAfter(LocalDate.now()))){
+                clist2.add(c);
+            }
+        }
+        int clength=clist2.size();
+        Commodity[] commodities=new Commodity[clength];
+        for(int i=0;i<clength;i++){
+            commodities[i]=clist2.get(i);
+        }
+
+        List<Discount> dlist1=discountRepository.findByRid(rid);
+        List<Discount> dlist2=new ArrayList<>();
+        for(Discount d:dlist1){
+            if(!(d.getEndDate().isBefore(LocalDate.now())||d.getBeginDate().isAfter(LocalDate.now()))){
+                dlist2.add(d);
+            }
+        }
+        int dlength=dlist2.size();
+        Discount[] discounts=new Discount[dlength];
+        for(int i=0;i<dlength;i++){
+            discounts[i]=dlist2.get(i);
+        }
+
+        List<Package> plist1 = packageRepository.findByRid(rid);
+        List<Package> plist2 = packageRepository.findByRid(rid);
+        for(Package p:plist1){
+            if(!(p.getEndDate().isBefore(LocalDate.now())||p.getBeginDate().isAfter(LocalDate.now()))){
+                plist2.add(p);
+            }
+        }
+
+        int plength=plist2.size();
+        PackageDetail[] packages=new PackageDetail[plength];
+        for(int i=0;i<plength;i++){
+            Package aPackage=plist2.get(i);
+            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getPrice(), aPackage.getBeginDate(), aPackage.getEndDate(), getPackageItems(aPackage.getPid()));
+        }
+
+        RestaurantDetail restaurantDetail=new RestaurantDetail(restaurant.getRid(), restaurant.getName(), restaurant.getLocation(), restaurant.getRegion(), restaurant.getPhoto(), restaurant.getKind(), commodities, packages, discounts);
+
+        return restaurantDetail;
+    }
+
     private void setIdCode(Restaurant restaurant){
         String idCode=""+restaurant.getRid();
         int length=idCode.length();
@@ -133,4 +205,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setIdCode(idCode);
     }
 
+    private PackageItem[] getPackageItems(int pid) {
+        List<PackageItem> list = packageItemRepository.findByPid(pid);
+        int length=list.size();
+        PackageItem[] packageItems=new PackageItem[length];
+        for(int i=0;i<length;i++){
+            packageItems[i]=list.get(i);
+        }
+        return packageItems;
+    }
 }
