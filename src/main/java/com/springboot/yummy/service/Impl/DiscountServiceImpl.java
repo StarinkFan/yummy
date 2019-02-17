@@ -27,25 +27,28 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public boolean saveDiscount(Map<String, Object> map) {
+    public int saveDiscount(Map<String, Object> map) {
         try {
             int rid= (Integer)map.get("rid");
             int total= Integer.parseInt((String)map.get("total"));
             int dis= Integer.parseInt((String)map.get("discount"));
+            if(total<dis){
+                return -2;
+            }
             LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
             LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
             Discount discount;
             discount=new Discount(rid, total, dis, beginDate, endDate);
             if(!hasSameDiscount(discount)){
                 Discount savedDiscount=discountRepository.save(discount);
-                return true;
+                return savedDiscount.getDid();
             }else{
-                return false;
+                return -1;
             }
 
         }catch (Exception e){
             e.printStackTrace();
-            return false;
+            return -3;
         }
     }
 
