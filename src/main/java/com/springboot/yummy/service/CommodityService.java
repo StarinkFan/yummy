@@ -10,5 +10,5 @@ public interface CommodityService {
 
     int saveCommodity(Map<String, Object> map);
 
-    boolean deleteCommodity(int cid);
+    int deleteCommodity(int cid);
 }

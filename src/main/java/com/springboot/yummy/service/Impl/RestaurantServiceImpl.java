@@ -176,14 +176,15 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
         List<Package> plist1 = packageRepository.findByRid(rid);
-        List<Package> plist2 = packageRepository.findByRid(rid);
+        List<Package> plist2 = new ArrayList<>();
         for(Package p:plist1){
-            if(!(p.getEndDate().isBefore(LocalDate.now())||p.getBeginDate().isAfter(LocalDate.now()))){
+            if( !( p.getEndDate().isBefore(LocalDate.now()) || p.getBeginDate().isAfter(LocalDate.now()) ) ){
                 plist2.add(p);
             }
         }
 
         int plength=plist2.size();
+        System.out.println(plength);
         PackageDetail[] packages=new PackageDetail[plength];
         for(int i=0;i<plength;i++){
             Package aPackage=plist2.get(i);

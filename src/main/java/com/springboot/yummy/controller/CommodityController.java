@@ -34,7 +34,7 @@ public class CommodityController {
 
     @RequestMapping(value = "/deleteCommodity", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public boolean deleteCommodity(@RequestBody Map<String, Object> requestMap){
+    public int deleteCommodity(@RequestBody Map<String, Object> requestMap){
         int cid= (Integer)requestMap.get("cid");
         return commodityService.deleteCommodity(cid);
     }

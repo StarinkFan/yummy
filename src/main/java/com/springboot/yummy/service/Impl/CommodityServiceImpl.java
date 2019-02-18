@@ -1,7 +1,11 @@
 package com.springboot.yummy.service.Impl;
 
 import com.springboot.yummy.dao.CommodityRepository;
+import com.springboot.yummy.dao.PackageItemRepository;
+import com.springboot.yummy.dao.PackageRepository;
 import com.springboot.yummy.entity.Commodity;
+import com.springboot.yummy.entity.Package;
+import com.springboot.yummy.entity.PackageItem;
 import com.springboot.yummy.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,8 @@ import java.util.Map;
 public class CommodityServiceImpl implements CommodityService {
     @Autowired
     CommodityRepository commodityRepository;
+    @Autowired
+    PackageItemRepository packageItemRepository;
 
     @Override
     public Commodity[] getCommodities(int rid) {
@@ -62,13 +68,26 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public boolean deleteCommodity(int cid) {
+    public int deleteCommodity(int cid) {
         try {
+            if(inPackage(cid)){
+                return -1;
+            }
             commodityRepository.deleteByCid(cid);
-            return true;
+            return 1;
         }catch (Exception e){
             e.printStackTrace();
-            return false;
+            return 0;
         }
+    }
+
+    private boolean inPackage(int cid){
+        List<PackageItem> items=packageItemRepository.findAll();
+        for(PackageItem item: items){
+            if(item.getCid()==cid) {
+                return true;
+            }
+        }
+        return false;
     }
 }
