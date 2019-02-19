@@ -17,6 +17,7 @@ public class Order {
     private double discount;
     private double pay;
     private double refund;
+    private String target;
     private int state;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
@@ -27,7 +28,7 @@ public class Order {
 
     public Order(){}
 
-    public Order(int oid, int uid, int rid, double total, double discount, double pay, double refund, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime){
+    public Order(int oid, int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime){
         this.oid=oid;
         this.uid=uid;
         this.rid=rid;
@@ -35,19 +36,21 @@ public class Order {
         this.discount=discount;
         this.pay=pay;
         this.refund=refund;
+        this.target=target;
         this.state=state;
         this.createTime=createTime;
         this.payTime=payTime;
         this.refundTime=refundTime;
     }
 
-    public Order(int uid, int rid, double total, double discount, double pay, double refund, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime){
+    public Order(int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime){
         this.uid=uid;
         this.rid=rid;
         this.total=total;
         this.discount=discount;
         this.pay=pay;
         this.refund=refund;
+        this.target=target;
         this.state=state;
         this.createTime=createTime;
         this.payTime=payTime;
@@ -141,5 +144,13 @@ public class Order {
 
     public void setRefundTime(LocalDateTime refundTime) {
         this.refundTime=refundTime;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 }
