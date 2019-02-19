@@ -123,4 +123,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Target[] getTargets(int uid) {
+        List<Target> list= targetRepository.findByUid(uid);
+        int length=list.size();
+        Target[] targets=new Target[length];
+        for(int i=0;i<length;i++){
+            targets[i]=list.get(i);
+        }
+        return targets;
+    }
+
 }

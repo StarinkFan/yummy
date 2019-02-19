@@ -1,5 +1,6 @@
 package com.springboot.yummy.controller;
 
+import com.springboot.yummy.entity.Target;
 import com.springboot.yummy.service.UserService;
 import com.springboot.yummy.util.CodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +106,13 @@ public class UserController {
         int uid= Integer.parseInt((String)requestMap.get("uid"));
         return userService.logoff(uid);
     }
+
+    @RequestMapping(value = "/getTargets", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Target[] getTargets(@RequestBody Map<String, Object> requestMap){
+        int uid= Integer.parseInt((String)requestMap.get("uid"));
+        return userService.getTargets(uid);
+    }
+
 
 }

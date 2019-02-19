@@ -1,6 +1,8 @@
 package com.springboot.yummy.service;
 
 
+import com.springboot.yummy.entity.Target;
+
 import java.util.Map;
 
 public interface UserService {
@@ -22,4 +24,6 @@ public interface UserService {
     void modifyInfo(Map<String, Object> map);
 
     boolean logoff(int uid);
+
+    Target[] getTargets(int uid);
 }
