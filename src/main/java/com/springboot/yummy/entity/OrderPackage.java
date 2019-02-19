@@ -3,42 +3,48 @@ package com.springboot.yummy.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "packageItems")
-public class PackageItem {
+@Table(name = "orderPackages")
+public class OrderPackage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private int piid;
+    private int opid;
+    private int oid;
     private int pid;
-    private int cid;
     private int num;
     private String name;
     private double price;
 
-    public PackageItem(int pid, int cid, int num, String name, double price) {
+    public OrderPackage(int oid, int pid, int num, String name, double price) {
+        this.oid = oid;
         this.pid = pid;
-        this.cid = cid;
         this.num=num;
         this.name = name;
         this.price = price;
     }
 
-    public PackageItem(int piid, int pid, int cid, int num, String name, double price) {
-        this.piid = piid;
+    public OrderPackage(int opid, int oid, int pid, int num, String name, double price) {
+        this.opid=opid;
+        this.oid = oid;
         this.pid = pid;
-        this.cid = cid;
         this.num=num;
         this.name = name;
         this.price = price;
     }
 
-    public PackageItem(){}
-
-    public int getPiid() {
-        return piid;
+    public int getOpid() {
+        return opid;
     }
 
-    public void setPiid(int piid) {
-        this.piid = piid;
+    public void setOpid(int opid) {
+        this.opid = opid;
+    }
+
+    public int getOid() {
+        return oid;
+    }
+
+    public void setOid(int oid) {
+        this.oid = oid;
     }
 
     public int getPid() {
@@ -49,12 +55,12 @@ public class PackageItem {
         this.pid = pid;
     }
 
-    public int getCid() {
-        return cid;
+    public int getNum() {
+        return num;
     }
 
-    public void setCid(int cid) {
-        this.cid = cid;
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public String getName() {
@@ -71,13 +77,5 @@ public class PackageItem {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
     }
 }

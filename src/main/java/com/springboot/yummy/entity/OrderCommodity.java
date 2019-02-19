@@ -3,50 +3,48 @@ package com.springboot.yummy.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "packageItems")
-public class PackageItem {
+@Table(name = "orderCommodities")
+public class OrderCommodity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private int piid;
-    private int pid;
+    private int ocid;
+    private int oid;
     private int cid;
     private int num;
     private String name;
     private double price;
 
-    public PackageItem(int pid, int cid, int num, String name, double price) {
-        this.pid = pid;
+    public OrderCommodity(int oid, int cid, int num, String name, double price) {
+        this.oid = oid;
         this.cid = cid;
         this.num=num;
         this.name = name;
         this.price = price;
     }
 
-    public PackageItem(int piid, int pid, int cid, int num, String name, double price) {
-        this.piid = piid;
-        this.pid = pid;
+    public OrderCommodity(int ocid, int oid, int cid, int num, String name, double price) {
+        this.ocid = ocid;
+        this.oid = oid;
         this.cid = cid;
         this.num=num;
         this.name = name;
         this.price = price;
     }
 
-    public PackageItem(){}
-
-    public int getPiid() {
-        return piid;
+    public int getOcid() {
+        return ocid;
     }
 
-    public void setPiid(int piid) {
-        this.piid = piid;
+    public void setOcid(int ocid) {
+        this.ocid = ocid;
     }
 
-    public int getPid() {
-        return pid;
+    public int getOid() {
+        return oid;
     }
 
-    public void setPid(int pid) {
-        this.pid = pid;
+    public void setOid(int oid) {
+        this.oid = oid;
     }
 
     public int getCid() {
@@ -55,6 +53,14 @@ public class PackageItem {
 
     public void setCid(int cid) {
         this.cid = cid;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public String getName() {
@@ -71,13 +77,5 @@ public class PackageItem {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
     }
 }
