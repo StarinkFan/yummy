@@ -20,9 +20,17 @@ public class AddressController {
 
     @RequestMapping(value = "/getSimilarLocations", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public String[] login(@RequestBody Map<String, Object> requestMap){
+    public String[] getSimilarLocations(@RequestBody Map<String, Object> requestMap){
         String query = requestMap.get("keyword").toString();
         String region = requestMap.get("area").toString();
         return addressService.getSimilarLocations(query, region);
+    }
+
+    @RequestMapping(value = "/canConvey", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public int canConvey(@RequestBody Map<String, Object> requestMap){
+        String departure = requestMap.get("departure").toString();
+        String target = requestMap.get("target").toString();
+        return addressService.canConvey(departure, target);
     }
 }

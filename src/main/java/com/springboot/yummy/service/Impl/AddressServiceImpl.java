@@ -47,4 +47,63 @@ public class AddressServiceImpl implements AddressService {
 
         return locations;
     }
+
+    @Override
+    public int canConvey(String departure, String target) {
+        String origin=getLocation(departure);
+        String destination=getLocation(target);
+        ArrayList<Double> distances=new ArrayList<>();
+        ArrayList<Double> durations=new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        params.put("origin", origin);
+        params.put("destination", destination);
+        params.put("riding_type", 1);
+        params.put("ak", "yvzxVkAsNqEcTQgkhmfRyaD3n51t0kd2");
+        params.put("output", "json");
+        String str=null;
+        try {
+            str = httpAPIService.doGet("http://api.map.baidu.com/direction/v2/riding", params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(str);
+        JSONObject responseBody = new JSONObject(str);
+        JSONArray array=responseBody.getJSONObject("result").getJSONArray("routes");
+        for(int i=0; i<array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            double distance=obj.getDouble("distance")/1000;
+            double duration=obj.getDouble("duration")/60;
+            distances.add(distance);
+            durations.add(duration);
+            if(distance<8||duration<30){
+                System.out.println(duration);
+                System.out.println((int)duration);
+                return (int)duration;
+            }
+        }
+        System.out.println(distances.toString());
+        System.out.println(durations.toString());
+        return -1;
+
+    }
+
+    private String getLocation(String address){
+        String str=null;
+        Map<String, Object> params = new HashMap<>();
+        params.put("address", address);
+        params.put("ak", "yvzxVkAsNqEcTQgkhmfRyaD3n51t0kd2");
+        params.put("output", "json");
+        try {
+            str = httpAPIService.doGet("http://api.map.baidu.com/geocoder/v2/", params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(str);
+        JSONObject responseBody = new JSONObject(str);
+        double lat=responseBody.getJSONObject("result").getJSONObject("location").getDouble("lat");
+        double lng=responseBody.getJSONObject("result").getJSONObject("location").getDouble("lng");
+        String result=lat+","+lng;
+        System.out.println(result);
+        return result;
+    }
 }
