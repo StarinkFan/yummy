@@ -10,5 +10,6 @@ import java.util.List;
 public interface PackageRepository extends JpaRepository<Package, String> {
     List<Package> findByRid(int rid);
     void deleteByPid(int pid);
+    Package findFirstByPid(int pid);
 
 }

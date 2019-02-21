@@ -20,7 +20,7 @@ public class OrderController {
 
     @RequestMapping(value = "/place", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public boolean place(@RequestBody Map<String, Object> requestMap){
+    public int place(@RequestBody Map<String, Object> requestMap){
         return orderService.placeOrder(requestMap);
     }
 }

@@ -25,10 +25,12 @@ public class Order {
     private LocalDateTime payTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime refundTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime arrivalTime;
 
     public Order(){}
 
-    public Order(int oid, int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime){
+    public Order(int oid, int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime, LocalDateTime arrivalTime){
         this.oid=oid;
         this.uid=uid;
         this.rid=rid;
@@ -41,9 +43,10 @@ public class Order {
         this.createTime=createTime;
         this.payTime=payTime;
         this.refundTime=refundTime;
+        this.arrivalTime=arrivalTime;
     }
 
-    public Order(int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime){
+    public Order(int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime, LocalDateTime arrivalTime){
         this.uid=uid;
         this.rid=rid;
         this.total=total;
@@ -55,6 +58,7 @@ public class Order {
         this.createTime=createTime;
         this.payTime=payTime;
         this.refundTime=refundTime;
+        this.arrivalTime=arrivalTime;
     }
 
 

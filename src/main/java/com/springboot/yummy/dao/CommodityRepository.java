@@ -8,5 +8,5 @@ import java.util.List;
 public interface CommodityRepository extends JpaRepository<Commodity,String> {
     List<Commodity> findByRid(int rid);
     void deleteByCid(int cid);
-    Commodity findByCid(int cid);
+    Commodity findFirstByCid(int cid);
 }
