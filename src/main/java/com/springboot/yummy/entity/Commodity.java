@@ -14,6 +14,8 @@ public class Commodity {
     private int rid;
     private String name;
     private double price;
+    @Column(columnDefinition="varchar(255) default '主食'")
+    private String kind;
     private int amount;
     private int sold;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -21,21 +23,23 @@ public class Commodity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    public Commodity(int rid, String name, double price, int amount, int sold, LocalDate beginDate, LocalDate endDate){
+    public Commodity(int rid, String name, double price, String kind, int amount, int sold, LocalDate beginDate, LocalDate endDate){
         this.rid=rid;
         this.name=name;
         this.price=price;
+        this.kind=kind;
         this.amount=amount;
         this.sold=sold;
         this.beginDate=beginDate;
         this.endDate=endDate;
     }
 
-    public Commodity(int cid, int rid, String name, double price, int amount, int sold, LocalDate beginDate, LocalDate endDate){
+    public Commodity(int cid, int rid, String name, double price, String kind, int amount, int sold, LocalDate beginDate, LocalDate endDate){
         this.cid=cid;
         this.rid=rid;
         this.name=name;
         this.price=price;
+        this.kind=kind;
         this.amount=amount;
         this.sold=sold;
         this.beginDate=beginDate;
@@ -106,5 +110,13 @@ public class Commodity {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 }

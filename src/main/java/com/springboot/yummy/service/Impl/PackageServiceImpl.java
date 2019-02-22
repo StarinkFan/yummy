@@ -67,8 +67,9 @@ public class PackageServiceImpl implements PackageService {
                 int cid=ob.getInt("cid");
                 int num=ob.getInt("num");
                 String iname = ob.getString("name");
+                String kind = ob.getString("kind");
                 Double iprice = ob.getDouble("price");
-                packageItemRepository.save(new PackageItem(pid, cid, num, iname, iprice));
+                packageItemRepository.save(new PackageItem(pid, cid, num, iname, iprice, kind));
             }
 
             return true;

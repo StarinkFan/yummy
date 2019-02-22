@@ -97,7 +97,8 @@ public class OrderServiceImpl implements OrderService {
                 Commodity commodity=commodityRepository.findFirstByCid(cids.get(i));
                 double price=commodity.getPrice();
                 String name=commodity.getName();
-                OrderCommodity oc=new OrderCommodity(oid, cids.get(i), cnums.get(i), name, price);
+                String kind=commodity.getKind();
+                OrderCommodity oc=new OrderCommodity(oid, cids.get(i), cnums.get(i), name, price, kind);
                 orderCommodityRepository.save(oc);
             }
 

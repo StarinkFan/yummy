@@ -13,9 +13,13 @@ public class Order {
     private int oid;
     private int uid;
     private int rid;
+    @Column(columnDefinition="float(10,2) default '0.00'")
     private double total;
+    @Column(columnDefinition="float(10,2) default '0.00'")
     private double discount;
+    @Column(columnDefinition="float(10,2) default '0.00'")
     private double pay;
+    @Column(columnDefinition="float(10,2) default '0.00'")
     private double refund;
     private String target;
     private int state;

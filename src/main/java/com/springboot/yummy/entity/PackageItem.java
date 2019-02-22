@@ -13,22 +13,26 @@ public class PackageItem {
     private int num;
     private String name;
     private double price;
+    @Column(columnDefinition="varchar(255) default '主食'")
+    private String kind;
 
-    public PackageItem(int pid, int cid, int num, String name, double price) {
+    public PackageItem(int pid, int cid, int num, String name, double price, String kind) {
         this.pid = pid;
         this.cid = cid;
         this.num=num;
         this.name = name;
         this.price = price;
+        this.kind=kind;
     }
 
-    public PackageItem(int piid, int pid, int cid, int num, String name, double price) {
+    public PackageItem(int piid, int pid, int cid, int num, String name, double price, String kind) {
         this.piid = piid;
         this.pid = pid;
         this.cid = cid;
         this.num=num;
         this.name = name;
         this.price = price;
+        this.kind=kind;
     }
 
     public PackageItem(){}
@@ -79,5 +83,13 @@ public class PackageItem {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 }
