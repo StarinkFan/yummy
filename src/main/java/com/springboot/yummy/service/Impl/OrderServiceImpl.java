@@ -1,12 +1,8 @@
 package com.springboot.yummy.service.Impl;
 
-import com.springboot.yummy.dao.CommodityRepository;
-import com.springboot.yummy.dao.OrderRepository;
-import com.springboot.yummy.dao.PackageItemRepository;
-import com.springboot.yummy.dao.PackageRepository;
-import com.springboot.yummy.entity.Commodity;
-import com.springboot.yummy.entity.Order;
-import com.springboot.yummy.entity.PackageItem;
+import com.springboot.yummy.dao.*;
+import com.springboot.yummy.entity.*;
+import com.springboot.yummy.entity.Package;
 import com.springboot.yummy.service.OrderService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -14,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,11 +22,19 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepository;
     @Autowired
+    OrderCommodityRepository orderCommodityRepository;
+    @Autowired
+    OrderPackageRepository orderPackageRepository;
+    @Autowired
     CommodityRepository commodityRepository;
     @Autowired
     PackageRepository packageRepository;
     @Autowired
     PackageItemRepository packageItemRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    DiscountRepository discountRepository;
 
     @Override
     public int placeOrder(Map<String, Object> map) {
@@ -83,15 +88,31 @@ public class OrderServiceImpl implements OrderService {
                 total=total+packageRepository.findFirstByPid(pids.get(i)).getPrice()*pnums.get(i);
             }
 
-            double discount=0;
-            //补充discount
+            double discount=getHighestDiscount(uid, rid, total);
 
             Order order=new Order(uid, rid, total, discount, total-discount, 0, target, 0, LocalDateTime.now(), null, null, null);
+            int oid=orderRepository.save(order).getOid();
 
-            return 1;
+            for (int i=0;i<cids.size();i++){
+                Commodity commodity=commodityRepository.findFirstByCid(cids.get(i));
+                double price=commodity.getPrice();
+                String name=commodity.getName();
+                OrderCommodity oc=new OrderCommodity(oid, cids.get(i), cnums.get(i), name, price);
+                orderCommodityRepository.save(oc);
+            }
+
+            for (int i=0;i<pids.size();i++){
+                Package aPackage =packageRepository.findFirstByPid(pids.get(i));
+                double price=aPackage.getPrice();
+                String name=aPackage.getName();
+                OrderPackage op=new OrderPackage(oid, pids.get(i), pnums.get(i), name, price);
+                orderPackageRepository.save(op);
+            }
+
+            return oid;
         }catch (Exception e){
             e.printStackTrace();
-            return 0;
+            return -3;
         }
     }
 
@@ -118,5 +139,39 @@ public class OrderServiceImpl implements OrderService {
         }
         return true;
     }
+
+    private double getHighestDiscount(int uid, int rid, double total){
+        double discount=0;
+        int level=userRepository.findFirstByUid(uid).getLevel();
+        switch (level){
+            case 0:
+                discount=0;
+                break;
+            case 1:
+                discount=0.1*total;
+                break;
+            case 2:
+                discount=0.2*total;
+                break;
+            case 3:
+                discount=0.3*total;
+                break;
+        }
+
+        List<Discount> list1=discountRepository.findByRid(rid);
+        List<Discount> list2=new ArrayList<>();
+        for(Discount d:list1){
+            if(!(d.getEndDate().isBefore(LocalDate.now())||d.getBeginDate().isAfter(LocalDate.now()))){
+                list2.add(d);
+            }
+        }
+        for(Discount d:list2){
+            if(total>=d.getTotal()&&discount<d.getDiscount()){
+                discount=d.getDiscount();
+            }
+        }
+        return discount;
+    }
+
 
 }
