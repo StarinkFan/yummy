@@ -14,6 +14,8 @@ public class OrderPackage {
     private String name;
     private double price;
 
+    public OrderPackage(){}
+
     public OrderPackage(int oid, int pid, int num, String name, double price) {
         this.oid = oid;
         this.pid = pid;

@@ -1,5 +1,6 @@
 package com.springboot.yummy.controller;
 
+import com.springboot.yummy.entity.OrderDetail;
 import com.springboot.yummy.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,5 +23,12 @@ public class OrderController {
     @ResponseBody
     public int place(@RequestBody Map<String, Object> requestMap){
         return orderService.placeOrder(requestMap);
+    }
+
+    @RequestMapping(value = "/getDetail", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public OrderDetail getOrderDetail(@RequestBody Map<String, Object> requestMap){
+        int oid= Integer.parseInt((String)requestMap.get("oid"));
+        return orderService.getOrderDetail(oid);
     }
 }

@@ -16,6 +16,8 @@ public class OrderCommodity {
     @Column(columnDefinition="varchar(255) default '主食'")
     private String kind;
 
+    public OrderCommodity(){}
+
     public OrderCommodity(int oid, int cid, int num, String name, double price, String kind) {
         this.oid = oid;
         this.cid = cid;
