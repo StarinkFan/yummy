@@ -22,6 +22,8 @@ public interface RestaurantService {
 
     String getIdCode(int owner);
 
+    String getName(int rid);
+
     Restaurant[] getRestaurantList();
 
     RestaurantDetail getRestaurantDetailByUser(int rid);

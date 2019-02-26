@@ -136,6 +136,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public String getName(int rid) {
+        return restaurantRepository.findFirstByRid(rid).getName();
+    }
+
+    @Override
     public Restaurant[] getRestaurantList() {
         List<Restaurant> list=restaurantRepository.findByIfValid(true);
         int length=list.size();

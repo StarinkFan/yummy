@@ -95,4 +95,11 @@ public class RestaurantController {
         int rid= Integer.parseInt((String)requestMap.get("rid"));
         return restaurantService.getRestaurantDetailByUser(rid);
     }
+
+    @RequestMapping(value = "/getName", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public String getName(@RequestBody Map<String, Object> requestMap){
+        int rid= (Integer)requestMap.get("rid");
+        return restaurantService.getName(rid);
+    }
 }

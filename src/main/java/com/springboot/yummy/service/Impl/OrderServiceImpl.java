@@ -178,19 +178,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDetail getOrderDetail(int oid) {
        Order order=orderRepository.findFirstByOid(oid);
-       OrderCommodity[] commodities= (OrderCommodity[]) orderCommodityRepository.findByOid(oid).toArray();
+       List<OrderCommodity> commodities= orderCommodityRepository.findByOid(oid);
        List<OrderPackage> list1=orderPackageRepository.findByOid(oid);
-       List<PackageDetail> list2=new ArrayList<>();
+       List<PackageDetail> packages=new ArrayList<>();
        for(OrderPackage aPackage:list1){
-           list2.add(new PackageDetail(aPackage.getPid(), order.getRid(), aPackage.getName(), aPackage.getPrice(), null, null, getPackageItems(aPackage.getPid())));
+           packages.add(new PackageDetail(aPackage.getPid(), order.getRid(), aPackage.getName(), aPackage.getPrice(), null, null, getPackageItems(aPackage.getPid())));
        }
-       PackageDetail[] packages= (PackageDetail[]) list2.toArray();
        return new OrderDetail(order, commodities, packages);
     }
 
     private PackageItem[] getPackageItems(int pid) {
         List<PackageItem> list = packageItemRepository.findByPid(pid);
-        return (PackageItem[]) list.toArray();
+        int length=list.size();
+        PackageItem[] packageItems=new PackageItem[length];
+        for(int i=0;i<length;i++){
+            packageItems[i]=list.get(i);
+        }
+        return packageItems;
     }
 
 
