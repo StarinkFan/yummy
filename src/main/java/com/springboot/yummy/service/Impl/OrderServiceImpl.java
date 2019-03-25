@@ -4,10 +4,12 @@ import com.springboot.yummy.dao.*;
 import com.springboot.yummy.entity.*;
 import com.springboot.yummy.entity.Package;
 import com.springboot.yummy.service.OrderService;
+import com.springboot.yummy.util.UnpaidOrdersMonitor;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -110,6 +112,10 @@ public class OrderServiceImpl implements OrderService {
                 orderPackageRepository.save(op);
             }
 
+            UnpaidOrdersMonitor.addUnpaidOrder(oid);
+
+            updateCommodities( new ArrayList<>(cids), new ArrayList<>(cnums), new ArrayList<>(pids), new ArrayList<>(pnums));
+
             return oid;
         }catch (Exception e){
             e.printStackTrace();
@@ -174,6 +180,27 @@ public class OrderServiceImpl implements OrderService {
         return discount;
     }
 
+    private void updateCommodities(ArrayList<Integer> cids, ArrayList<Integer> cnums, ArrayList<Integer> pids, ArrayList<Integer> pnums){
+        for(int i=0;i<pids.size();i++){
+            List<PackageItem> items=packageItemRepository.findByPid(pids.get(i));
+            for(PackageItem item: items){
+                int index=cids.indexOf(item.getCid());
+                if(index>=0){
+                    cnums.set(index, cnums.get(index)+item.getNum()*pnums.get(i));
+                }else{
+                    cids.add(item.getCid());
+                    cnums.add(item.getNum()*pnums.get(i));
+                }
+            }
+        }
+
+        for (int i=0;i<cids.size();i++){
+            Commodity commodity=commodityRepository.findFirstByCid(cids.get(i));
+            commodity.setSold(commodity.getSold()+cnums.get(i));
+            commodityRepository.save(commodity);
+        }
+    }
+
 
     @Override
     public OrderDetail getOrderDetail(int oid) {
@@ -187,6 +214,7 @@ public class OrderServiceImpl implements OrderService {
        return new OrderDetail(order, commodities, packages);
     }
 
+
     private PackageItem[] getPackageItems(int pid) {
         List<PackageItem> list = packageItemRepository.findByPid(pid);
         int length=list.size();
@@ -197,5 +225,52 @@ public class OrderServiceImpl implements OrderService {
         return packageItems;
     }
 
+
+
+    @Transactional
+    @Override
+    public void deleteOrder(int oid) {
+        orderRepository.deleteByOid(oid);
+        List<OrderCommodity> commodityList=orderCommodityRepository.findByOid(oid);
+        List<OrderPackage> packageList=orderPackageRepository.findByOid(oid);
+        ArrayList<Integer> cids=new ArrayList<>();
+        ArrayList<Integer> cnums=new ArrayList<>();
+        ArrayList<Integer> pids=new ArrayList<>();
+        ArrayList<Integer> pnums=new ArrayList<>();
+
+        for(OrderCommodity commodity:commodityList){
+            cids.add(commodity.getCid());
+            cnums.add(commodity.getNum());
+            orderCommodityRepository.delete(commodity);
+        }
+
+        for(OrderPackage orderPackage:packageList){
+            pids.add(orderPackage.getPid());
+            pnums.add(orderPackage.getNum());
+            orderPackageRepository.delete(orderPackage);
+        }
+        restoreCommodities(cids, cnums, pids, pnums);
+    }
+
+    private void restoreCommodities(ArrayList<Integer> cids, ArrayList<Integer> cnums, ArrayList<Integer> pids, ArrayList<Integer> pnums){
+        for(int i=0;i<pids.size();i++){
+            List<PackageItem> items=packageItemRepository.findByPid(pids.get(i));
+            for(PackageItem item: items){
+                int index=cids.indexOf(item.getCid());
+                if(index>=0){
+                    cnums.set(index, cnums.get(index)+item.getNum()*pnums.get(i));
+                }else{
+                    cids.add(item.getCid());
+                    cnums.add(item.getNum()*pnums.get(i));
+                }
+            }
+        }
+
+        for (int i=0;i<cids.size();i++){
+            Commodity commodity=commodityRepository.findFirstByCid(cids.get(i));
+            commodity.setSold(commodity.getSold()-cnums.get(i));
+            commodityRepository.save(commodity);
+        }
+    }
 
 }

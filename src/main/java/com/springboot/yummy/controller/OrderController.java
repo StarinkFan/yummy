@@ -28,7 +28,7 @@ public class OrderController {
     @RequestMapping(value = "/getDetail", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
     public OrderDetail getOrderDetail(@RequestBody Map<String, Object> requestMap){
-        int oid= Integer.parseInt((String)requestMap.get("oid"));
+        int oid= (Integer)requestMap.get("oid");
         return orderService.getOrderDetail(oid);
     }
 }
