@@ -273,4 +273,11 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    @Override
+    public void setState(int oid, int state) {
+        Order order=orderRepository.findFirstByOid(oid);
+        order.setState(state);
+        orderRepository.save(order);
+    }
 }
