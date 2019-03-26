@@ -286,11 +286,14 @@ public class OrderServiceImpl implements OrderService {
         if(state==1){
             order.setPayTime(LocalDateTime.now());
             order.setBankAccount(baid);
+        }else if(state==2){
+            order.setArrivalTime(LocalDateTime.now());
+            result=1;
         }else if(state==3){
             order.setRefundTime(LocalDateTime.now());
             Duration duration=Duration.between(order.getPayTime(),order.getRefundTime());
             long minutes=duration.toMinutes();
-            Double refund=0.00;
+            Double refund;
             if(minutes<2){
                 refund=order.getPay();
                 result=2;

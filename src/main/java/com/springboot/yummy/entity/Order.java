@@ -156,6 +156,14 @@ public class Order {
         this.refundTime=refundTime;
     }
 
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrivalTime=arrivalTime;
+    }
+
     public String getTarget() {
         return target;
     }

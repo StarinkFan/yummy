@@ -2,6 +2,7 @@ package com.springboot.yummy.controller;
 
 import com.springboot.yummy.entity.OrderDetail;
 import com.springboot.yummy.service.OrderService;
+import com.springboot.yummy.util.UnconfirmedOrdersMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,18 @@ public class OrderController {
         int oid= (Integer)requestMap.get("oid");
         int result=orderService.setState(oid,3, 0);
         return result;
+    }
+
+    @RequestMapping(value = "/arrive", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean arrive(@RequestBody Map<String, Object> requestMap){
+        int oid= (Integer)requestMap.get("oid");
+        int result=orderService.setState(oid,2, 0);
+        if(result>0){
+            UnconfirmedOrdersMonitor.removeUnconfirmedOrder(oid);
+            return true;
+        }else {
+            return false;
+        }
     }
 }

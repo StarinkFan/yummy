@@ -3,6 +3,8 @@ package com.springboot.yummy.controller;
 import com.springboot.yummy.entity.BankAccount;
 import com.springboot.yummy.service.BankAccountService;
 import com.springboot.yummy.service.OrderService;
+import com.springboot.yummy.util.UnconfirmedOrdersMonitor;
+import com.springboot.yummy.util.UnpaidOrdersMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,7 @@ public class BankAccountController {
         if(result>0){
             try {
                 orderService.setState(oid, 1, result);
+                UnconfirmedOrdersMonitor.addUnconfirmedOrder(oid);
             }catch (Exception e){
                 e.printStackTrace();
                 return 0;
