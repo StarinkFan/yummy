@@ -29,7 +29,7 @@ public class UnconfirmedOrdersMonitor {
         unconfirmedOrders.add(oid);
         Timer timer = new Timer();
         TimeTask3 task=new TimeTask3(oid);
-        timer.schedule(task, 60* 1000);
+        timer.schedule(task, 60*60* 1000);
     }
 
     public static boolean removeUnconfirmedOrder(int oid){

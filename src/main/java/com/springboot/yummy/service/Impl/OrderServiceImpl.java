@@ -312,4 +312,9 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
         return result;
     }
+
+    @Override
+    public List<Order> getUserOrders(int uid) {
+        return orderRepository.findByUid(uid);
+    }
 }

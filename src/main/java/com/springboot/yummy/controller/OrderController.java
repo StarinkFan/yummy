@@ -1,5 +1,6 @@
 package com.springboot.yummy.controller;
 
+import com.springboot.yummy.entity.Order;
 import com.springboot.yummy.entity.OrderDetail;
 import com.springboot.yummy.service.OrderService;
 import com.springboot.yummy.util.UnconfirmedOrdersMonitor;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Transactional
@@ -52,5 +54,12 @@ public class OrderController {
         }else {
             return false;
         }
+    }
+
+    @RequestMapping(value = "/getUserOrders", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public List<Order> getUserDetails(@RequestBody Map<String, Object> requestMap){
+        int uid= Integer.parseInt((String)requestMap.get("uid"));
+        return orderService.getUserOrders(uid);
     }
 }
