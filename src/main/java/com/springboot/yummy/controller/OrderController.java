@@ -31,4 +31,12 @@ public class OrderController {
         int oid= (Integer)requestMap.get("oid");
         return orderService.getOrderDetail(oid);
     }
+
+    @RequestMapping(value = "/refund", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public int refund(@RequestBody Map<String, Object> requestMap){
+        int oid= (Integer)requestMap.get("oid");
+        int result=orderService.setState(oid,3, 0);
+        return result;
+    }
 }

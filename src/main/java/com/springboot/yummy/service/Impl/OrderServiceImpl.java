@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Array;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,6 +38,9 @@ public class OrderServiceImpl implements OrderService {
     UserRepository userRepository;
     @Autowired
     DiscountRepository discountRepository;
+    @Autowired
+    BankAccountRepository bankAccountRepository;
+
 
     @Override
     public int placeOrder(Map<String, Object> map) {
@@ -275,9 +279,34 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void setState(int oid, int state) {
+    public int setState(int oid, int state, int baid) {
+        int result=0;
         Order order=orderRepository.findFirstByOid(oid);
         order.setState(state);
+        if(state==1){
+            order.setPayTime(LocalDateTime.now());
+            order.setBankAccount(baid);
+        }else if(state==3){
+            order.setRefundTime(LocalDateTime.now());
+            Duration duration=Duration.between(order.getPayTime(),order.getRefundTime());
+            long minutes=duration.toMinutes();
+            Double refund=0.00;
+            if(minutes<2){
+                refund=order.getPay();
+                result=2;
+            }else if(minutes<10){
+                refund=(double) Math.round(order.getPay()*0.8 * 100) / 100;
+                result=10;
+            }else{
+                refund=(double) Math.round(order.getPay()*0.5 * 100) / 100;
+                result=20;
+            }
+            order.setRefund(refund);
+            BankAccount bankAccount=bankAccountRepository.findFirstByBaid(order.getBankAccount());
+            bankAccount.setDeposit(bankAccount.getDeposit()+refund);
+            bankAccountRepository.save(bankAccount);
+        }
         orderRepository.save(order);
+        return result;
     }
 }

@@ -29,12 +29,12 @@ public class BankAccountController {
         int oid= (Integer)requestMap.get("oid");
         String account=requestMap.get("account").toString();
         String password=requestMap.get("password").toString();
-        Double price = Double.parseDouble(requestMap.get("price").toString());
+        Double shouldPay = Double.parseDouble(requestMap.get("shouldPay").toString());
         System.out.println(account+" "+password);
-        int result=bankAccountService.pay(account, password, price);
-        if(result==1){
+        int result=bankAccountService.pay(account, password, shouldPay,oid);
+        if(result>0){
             try {
-                orderService.setState(oid, 1);
+                orderService.setState(oid, 1, result);
             }catch (Exception e){
                 e.printStackTrace();
                 return 0;

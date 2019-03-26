@@ -23,6 +23,7 @@ class TimeTask2 extends TimerTask {
     public void run() {
         int index=UnpaidOrdersMonitor.unpaidOrders.indexOf(oid);
         if(index>-1){
+            UnpaidOrdersMonitor.unpaidOrders.remove((Integer)oid);
             UnpaidOrdersMonitor.deleteOrder(oid);
             System.out.println("订单"+oid+"超时未支付,已删除");
         }

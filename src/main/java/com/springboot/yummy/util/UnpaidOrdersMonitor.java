@@ -33,9 +33,9 @@ public class UnpaidOrdersMonitor {
         timer.schedule(task, 120 * 1000);
     }
 
-    public static void removeUnpaidOrder(int oid){
-        System.out.println("订单"+oid+"过期未支付");
-        unpaidOrders.remove((Integer)oid);
+    public static boolean removeUnpaidOrder(int oid){
+        System.out.println("订单"+oid+"已支付");
+        return unpaidOrders.remove((Integer)oid);
     }
 
     static void deleteOrder(int oid){

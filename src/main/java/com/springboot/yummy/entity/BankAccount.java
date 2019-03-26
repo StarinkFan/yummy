@@ -8,19 +8,11 @@ import java.io.Serializable;
 public class BankAccount implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
-    private int uid;
+    private int baid;
     private String account;
     private String password;
     @Column(columnDefinition="float(10,2) default '0.00'")
     private double deposit;
-
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
 
     public String getAccount() {
         return account;
@@ -44,5 +36,13 @@ public class BankAccount implements Serializable {
 
     public void setDeposit(double deposit) {
         this.deposit = deposit;
+    }
+
+    public int getBaid() {
+        return baid;
+    }
+
+    public void setBaid(int baid) {
+        this.baid = baid;
     }
 }

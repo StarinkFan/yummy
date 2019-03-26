@@ -31,6 +31,8 @@ public class Order {
     private LocalDateTime refundTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime arrivalTime;
+    @Column(columnDefinition="int default 1")
+    private int bankAccount;
 
     public Order(){}
 
@@ -160,5 +162,13 @@ public class Order {
 
     public void setTarget(String target) {
         this.target = target;
+    }
+
+    public int getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(int bankAccount) {
+        this.bankAccount = bankAccount;
     }
 }

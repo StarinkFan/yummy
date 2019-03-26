@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BankAccountRepository extends JpaRepository<BankAccount,String> {
     BankAccount findFirstByAccountAndPassword(String account, String password);
 
+    BankAccount findFirstByBaid(int baid);
 }
