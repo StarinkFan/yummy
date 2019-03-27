@@ -2,6 +2,8 @@ package com.springboot.yummy.controller;
 
 import com.springboot.yummy.entity.Order;
 import com.springboot.yummy.entity.OrderDetail;
+import com.springboot.yummy.service.GainService;
+import com.springboot.yummy.service.Impl.GainServiceImpl;
 import com.springboot.yummy.service.OrderService;
 import com.springboot.yummy.util.UnconfirmedOrdersMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,12 @@ import java.util.Map;
 @RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
+    private final GainService gainService;
 
     @Autowired  //自动装配
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, GainService gainService) {
         this.orderService=orderService;
+        this.gainService=gainService;
     }
 
     @RequestMapping(value = "/place", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -40,6 +44,9 @@ public class OrderController {
     public int refund(@RequestBody Map<String, Object> requestMap){
         int oid= (Integer)requestMap.get("oid");
         int result=orderService.setState(oid,3, 0);
+        if(result>0){
+            gainService.addGain(oid);
+        }
         return result;
     }
 
@@ -50,6 +57,7 @@ public class OrderController {
         int result=orderService.setState(oid,2, 0);
         if(result>0){
             UnconfirmedOrdersMonitor.removeUnconfirmedOrder(oid);
+            gainService.addGain(oid);
             return true;
         }else {
             return false;
