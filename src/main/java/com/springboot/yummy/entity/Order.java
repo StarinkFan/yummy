@@ -13,6 +13,10 @@ public class Order {
     private int oid;
     private int uid;
     private int rid;
+    @Column(columnDefinition="varchar(255) default 'Starink'")
+    private String uname;
+    @Column(columnDefinition="varchar(255) default '和园九十度西餐'")
+    private String rname;
     @Column(columnDefinition="float(10,2) default '0.00'")
     private double total;
     @Column(columnDefinition="float(10,2) default '0.00'")
@@ -36,7 +40,7 @@ public class Order {
 
     public Order(){}
 
-    public Order(int oid, int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime, LocalDateTime arrivalTime){
+    public Order(int oid, int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime, LocalDateTime arrivalTime, String uname, String rname){
         this.oid=oid;
         this.uid=uid;
         this.rid=rid;
@@ -50,9 +54,11 @@ public class Order {
         this.payTime=payTime;
         this.refundTime=refundTime;
         this.arrivalTime=arrivalTime;
+        this.uname=uname;
+        this.rname=rname;
     }
 
-    public Order(int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime, LocalDateTime arrivalTime){
+    public Order(int uid, int rid, double total, double discount, double pay, double refund, String target, int state, LocalDateTime createTime, LocalDateTime payTime, LocalDateTime refundTime, LocalDateTime arrivalTime, String uname, String rname){
         this.uid=uid;
         this.rid=rid;
         this.total=total;
@@ -65,6 +71,8 @@ public class Order {
         this.payTime=payTime;
         this.refundTime=refundTime;
         this.arrivalTime=arrivalTime;
+        this.uname=uname;
+        this.rname=rname;
     }
 
 
@@ -149,7 +157,7 @@ public class Order {
     }
 
     public LocalDateTime getRefundTime() {
-        return createTime;
+        return refundTime;
     }
 
     public void setRefundTime(LocalDateTime refundTime) {
@@ -178,5 +186,21 @@ public class Order {
 
     public void setBankAccount(int bankAccount) {
         this.bankAccount = bankAccount;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public String getRname() {
+        return rname;
+    }
+
+    public void setRname(String rname) {
+        this.rname = rname;
     }
 }

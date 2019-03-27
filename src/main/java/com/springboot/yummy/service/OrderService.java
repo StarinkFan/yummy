@@ -12,4 +12,5 @@ public interface OrderService {
     void deleteOrder(int oid);
     int setState(int oid, int state, int baid);
     List<Order> getUserOrders(int uid);
+    List<Order> getRestaurantOrders(int rid);
 }

@@ -23,6 +23,10 @@ import java.util.Map;
 @Service("OrderService")
 public class OrderServiceImpl implements OrderService {
     @Autowired
+    UserRepository userRepository;
+    @Autowired
+    RestaurantRepository restaurantRepository;
+    @Autowired
     OrderRepository orderRepository;
     @Autowired
     OrderCommodityRepository orderCommodityRepository;
@@ -34,8 +38,6 @@ public class OrderServiceImpl implements OrderService {
     PackageRepository packageRepository;
     @Autowired
     PackageItemRepository packageItemRepository;
-    @Autowired
-    UserRepository userRepository;
     @Autowired
     DiscountRepository discountRepository;
     @Autowired
@@ -96,7 +98,8 @@ public class OrderServiceImpl implements OrderService {
 
             double discount=getHighestDiscount(uid, rid, total);
 
-            Order order=new Order(uid, rid, total, discount, total-discount, 0, target, 0, LocalDateTime.now(), null, null, null);
+            Order order=new Order(uid, rid, total, discount, total-discount, 0, target, 0, LocalDateTime.now(),
+                    null, null, null, userRepository.findFirstByUid(uid).getName(), restaurantRepository.findFirstByRid(rid).getName());
             int oid=orderRepository.save(order).getOid();
 
             for (int i=0;i<cids.size();i++){
@@ -316,5 +319,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getUserOrders(int uid) {
         return orderRepository.findByUid(uid);
+    }
+
+    @Override
+    public List<Order> getRestaurantOrders(int rid) {
+        return orderRepository.findByRid(rid);
     }
 }

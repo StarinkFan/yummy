@@ -62,4 +62,11 @@ public class OrderController {
         int uid= Integer.parseInt((String)requestMap.get("uid"));
         return orderService.getUserOrders(uid);
     }
+
+    @RequestMapping(value = "/getRestaurantOrders", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public List<Order> getRestaurantDetails(@RequestBody Map<String, Object> requestMap){
+        int rid= Integer.parseInt((String)requestMap.get("rid"));
+        return orderService.getRestaurantOrders(rid);
+    }
 }
