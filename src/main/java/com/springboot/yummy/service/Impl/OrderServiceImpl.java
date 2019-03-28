@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
         try{
             int uid= Integer.parseInt((String)map.get("uid"));
-            int rid= Integer.parseInt((String)map.get("rid"));
+            int rid= (Integer)map.get("rid");
             String target= (String)map.get("target");
 
             JSONArray commodities = JSONArray.fromObject(map.get("commodities"));

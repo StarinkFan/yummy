@@ -2,10 +2,7 @@ package com.springboot.yummy.controller;
 
 import com.springboot.yummy.service.StatisticsService;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -25,4 +22,10 @@ public class StatisticsController {
         return statisticsService.getSystemCondition();
     }
 
+    @RequestMapping(value = "/getPersonalCondition", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Map<String, Object> getPersonalCondition(@RequestBody Map<String, Object> requestMap){
+        int uid= Integer.parseInt((String)requestMap.get("uid"));
+        return statisticsService.getPersonalCondition(uid);
+    }
 }
