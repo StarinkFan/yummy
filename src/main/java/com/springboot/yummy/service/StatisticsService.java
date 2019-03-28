@@ -6,4 +6,6 @@ public interface StatisticsService {
     Map<String, Object> getSystemCondition();
 
     Map<String, Object> getPersonalCondition(int uid);
+
+    Map<String, Object> getRestaurantCondition(int rid);
 }

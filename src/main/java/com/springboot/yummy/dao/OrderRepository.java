@@ -15,4 +15,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     List<Order> findByRid(int rid);
 
     List<Order> findByUidAndState(int uid, int state);
+
+    List<Order> findByRidAndState(int rid, int state);
 }

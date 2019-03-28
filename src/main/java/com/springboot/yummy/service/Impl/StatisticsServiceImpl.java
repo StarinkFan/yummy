@@ -109,4 +109,52 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         return map;
     }
+
+    @Override
+    public Map<String, Object> getRestaurantCondition(int rid) {
+        Map<String,Object> map=new HashMap<>();
+        List<Order> orders=orderRepository.findByRidAndState(rid, 2);
+        int[] timeCounts= {0,0,0};
+        int[] payCounts={0,0,0,0};
+        int[] levelCounts={0,0,0,0};
+        for(Order order: orders){
+            long days=Period.between(order.getArrivalTime().toLocalDate(), LocalDate.now()).getDays();
+            if(days==2){
+                timeCounts[0]++;
+            }else if(days==1){
+                timeCounts[1]++;
+            }else if(days==0){
+                timeCounts[2]++;
+            }
+            double pay=order.getPay();
+            if(pay<=30){
+                payCounts[0]++;
+            }else if(pay<=80){
+                payCounts[1]++;
+            }else if(pay<=200){
+                payCounts[2]++;
+            }else{
+                payCounts[3]++;
+            }
+            levelCounts[userRepository.findFirstByUid(order.getUid()).getLevel()]++;
+        }
+        orders=orderRepository.findByRidAndState(rid, 3);
+        int[] timeCounts2= {0,0,0};
+        for(Order order: orders){
+            int days=Period.between(order.getRefundTime().toLocalDate(), LocalDate.now()).getDays();
+            if(days==2){
+                timeCounts2[0]++;
+            }else if(days==1){
+                timeCounts2[1]++;
+            }else if(days==0){
+                timeCounts2[2]++;
+            }
+        }
+        map.put("timeCounts", timeCounts);
+        map.put("timeCounts2", timeCounts2);
+        map.put("payCounts", payCounts);
+        map.put("levelCounts", levelCounts);
+
+        return map;
+    }
 }

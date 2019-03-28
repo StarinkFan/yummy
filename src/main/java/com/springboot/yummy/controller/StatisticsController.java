@@ -28,4 +28,11 @@ public class StatisticsController {
         int uid= Integer.parseInt((String)requestMap.get("uid"));
         return statisticsService.getPersonalCondition(uid);
     }
+
+    @RequestMapping(value = "/getRestaurantCondition", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Map<String, Object> getRestaurantCondition(@RequestBody Map<String, Object> requestMap){
+        int rid= Integer.parseInt((String)requestMap.get("rid"));
+        return statisticsService.getRestaurantCondition(rid);
+    }
 }
