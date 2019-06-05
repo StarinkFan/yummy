@@ -39,5 +39,18 @@ public class CommodityController {
         return commodityService.deleteCommodity(cid);
     }
 
+    @RequestMapping(value = "/validate", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean validate(@RequestBody Map<String, Object> requestMap){
+        int cid= (Integer)requestMap.get("cid");
+        return commodityService.validate(cid);
+    }
+
+    @RequestMapping(value = "/invalidate", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean invalidate(@RequestBody Map<String, Object> requestMap){
+        int cid= (Integer)requestMap.get("cid");
+        return commodityService.validate(cid);
+    }
 
 }

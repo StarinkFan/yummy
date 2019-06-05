@@ -16,34 +16,39 @@ public class Commodity {
     private double price;
     @Column(columnDefinition="varchar(255) default '主食'")
     private String kind;
-    private int amount;
     private int sold;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate beginDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
+    @Column(columnDefinition="varchar(255) default 'https://njuhzl.oss-cn-hangzhou.aliyuncs.com/yummy/defaultLackPic.png'")
+    private String photo;
+    @Column(columnDefinition="varchar(255) default ''")
+    private String description;
+    @Column(columnDefinition="varchar(255) default '销售中'")
+    private String state;
+    @Column(columnDefinition="bit(1) default 1")
+    private boolean ifValid;
 
-    public Commodity(int rid, String name, double price, String kind, int amount, int sold, LocalDate beginDate, LocalDate endDate){
+    public Commodity(int rid, String name, double price, String kind, int sold, String photo, String description, String state, boolean ifValid){
         this.rid=rid;
         this.name=name;
         this.price=price;
         this.kind=kind;
-        this.amount=amount;
         this.sold=sold;
-        this.beginDate=beginDate;
-        this.endDate=endDate;
+        this.photo=photo;
+        this.description=description;
+        this.state=state;
+        this.ifValid=ifValid;
     }
 
-    public Commodity(int cid, int rid, String name, double price, String kind, int amount, int sold, LocalDate beginDate, LocalDate endDate){
+    public Commodity(int cid, int rid, String name, double price, String kind, int sold, String photo, String description, String state, boolean ifValid){
         this.cid=cid;
         this.rid=rid;
         this.name=name;
         this.price=price;
         this.kind=kind;
-        this.amount=amount;
         this.sold=sold;
-        this.beginDate=beginDate;
-        this.endDate=endDate;
+        this.photo=photo;
+        this.description=description;
+        this.state=state;
+        this.ifValid=ifValid;
     }
 
     public Commodity(){}
@@ -80,14 +85,6 @@ public class Commodity {
         this.price = price;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public int getSold() {
         return sold;
     }
@@ -96,27 +93,43 @@ public class Commodity {
         this.sold = sold;
     }
 
-    public LocalDate getBeginDate() {
-        return beginDate;
-    }
-
-    public void setBeginDate(LocalDate beginDate) {
-        this.beginDate = beginDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
     public String getKind() {
         return kind;
     }
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public boolean getIfValid() {
+        return ifValid;
+    }
+
+    public void setIfValid(boolean ifValid) {
+        this.ifValid = ifValid;
     }
 }

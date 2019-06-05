@@ -33,9 +33,7 @@ public class PackageServiceImpl implements PackageService {
         List<Commodity> commodities=commodityRepository.findByRid(rid);
         List<Commodity> items=new ArrayList<>();
         for(int i=0;i<commodities.size();i++){
-            if(!(commodities.get(i).getBeginDate().isAfter(beginDate)||commodities.get(i).getEndDate().isBefore(endDate))){
-                items.add(commodities.get(i));
-            }
+            items.add(commodities.get(i));
         }
         int length=items.size();
         Commodity[] options=new Commodity[length];

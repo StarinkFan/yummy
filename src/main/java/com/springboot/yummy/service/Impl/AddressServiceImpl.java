@@ -75,7 +75,7 @@ public class AddressServiceImpl implements AddressService {
             double duration=obj.getDouble("duration")/60;
             distances.add(distance);
             durations.add(duration);
-            if(distance<8||duration<30){
+            if(distance<10||duration<50){
                 System.out.println(duration);
                 System.out.println((int)duration);
                 return (int)duration;

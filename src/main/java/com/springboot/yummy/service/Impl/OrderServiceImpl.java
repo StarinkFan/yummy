@@ -147,9 +147,7 @@ public class OrderServiceImpl implements OrderService {
 
         for (int i=0;i<cids.size();i++){
             Commodity commodity=commodityRepository.findFirstByCid(cids.get(i));
-            if(commodity.getAmount()-commodity.getSold()<cnums.get(i)){
-                return false;
-            }
+
         }
         return true;
     }

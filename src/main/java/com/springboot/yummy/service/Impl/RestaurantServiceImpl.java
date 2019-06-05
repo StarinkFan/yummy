@@ -157,9 +157,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         List<Commodity> clist1=commodityRepository.findByRid(rid);
         List<Commodity> clist2=new ArrayList<>();
         for(Commodity c:clist1){
-            if(!(c.getEndDate().isBefore(LocalDate.now())||c.getBeginDate().isAfter(LocalDate.now()))){
                 clist2.add(c);
-            }
         }
         int clength=clist2.size();
         Commodity[] commodities=new Commodity[clength];

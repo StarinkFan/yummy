@@ -35,16 +35,20 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public int saveCommodity(Map<String, Object> map) {
         try {
+            int cid=(Integer)map.get("cid");
             int rid= (Integer)map.get("rid");
             String name=map.get("name").toString();
             String kind=map.get("kind").toString();
             Double price = Double.parseDouble(map.get("price").toString());
-            int amount= Integer.parseInt((String)map.get("amount"));
-            int sold= (Integer)map.get("sold");
-            LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
-            LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
+            String photo=map.get("photo").toString();
+            String description=map.get("description").toString();
             Commodity commodity;
-            commodity=new Commodity(rid, name, price, kind, amount, sold, beginDate, endDate);
+            if(cid<0){
+                commodity=new Commodity(rid, name, price, kind, 0, photo, description, "销售中", true);
+            }else {
+                Commodity commodity1=commodityRepository.findFirstByCid(cid);
+                commodity=new Commodity(cid, rid, name, price, kind, commodity1.getCid(), photo, description, commodity1.getState(), commodity1.getIfValid());
+            }
             if(!hasSameCommodity(commodity)){
                 Commodity savedCommodity=commodityRepository.save(commodity);
                 return savedCommodity.getCid();
@@ -61,7 +65,7 @@ public class CommodityServiceImpl implements CommodityService {
     private boolean hasSameCommodity(Commodity commodity){
         List<Commodity> list=commodityRepository.findByRid(commodity.getRid());
         for(Commodity c: list){
-            if(c.getName().equals(commodity.getName())&& !(c.getEndDate().isBefore(commodity.getBeginDate())||c.getBeginDate().isAfter(commodity.getEndDate())) ){
+            if(c.getName().equals(commodity.getName())&&c.getCid()!=commodity.getCid() ){
                 return true;
             }
         }
@@ -79,6 +83,33 @@ public class CommodityServiceImpl implements CommodityService {
         }catch (Exception e){
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    @Override
+    public boolean validate(int cid) {
+        try {
+            Commodity c=commodityRepository.findFirstByCid(cid);
+            c.setIfValid(true);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean invalidate(int cid) {
+        try {
+            if(inPackage(cid)){
+                return false;
+            }
+            Commodity c=commodityRepository.findFirstByCid(cid);
+            c.setIfValid(false);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 
