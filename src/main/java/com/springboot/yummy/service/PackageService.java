@@ -6,10 +6,11 @@ import com.springboot.yummy.entity.PackageDetail;
 import com.springboot.yummy.entity.PackageItem;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public interface PackageService {
-    Commodity[] getOptions(int rid, LocalDate beginDate, LocalDate endDate);
+    List<Commodity> getOptions(int rid);
 
     boolean savePackage(Map<String, Object> map);
 

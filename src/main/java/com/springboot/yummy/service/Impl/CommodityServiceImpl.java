@@ -47,7 +47,7 @@ public class CommodityServiceImpl implements CommodityService {
                 commodity=new Commodity(rid, name, price, kind, 0, photo, description, "销售中", true);
             }else {
                 Commodity commodity1=commodityRepository.findFirstByCid(cid);
-                commodity=new Commodity(cid, rid, name, price, kind, commodity1.getCid(), photo, description, commodity1.getState(), commodity1.getIfValid());
+                commodity=new Commodity(cid, rid, name, price, kind, commodity1.getSold(), photo, description, commodity1.getState(), commodity1.getIfValid());
             }
             if(!hasSameCommodity(commodity)){
                 Commodity savedCommodity=commodityRepository.save(commodity);

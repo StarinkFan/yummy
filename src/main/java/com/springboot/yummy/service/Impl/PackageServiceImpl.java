@@ -29,34 +29,34 @@ public class PackageServiceImpl implements PackageService {
     PackageItemRepository packageItemRepository;
 
     @Override
-    public Commodity[] getOptions(int rid, LocalDate beginDate, LocalDate endDate) {
-        List<Commodity> commodities=commodityRepository.findByRid(rid);
-        List<Commodity> items=new ArrayList<>();
-        for(int i=0;i<commodities.size();i++){
-            items.add(commodities.get(i));
-        }
-        int length=items.size();
-        Commodity[] options=new Commodity[length];
-        for(int i=0;i<length;i++){
-            options[i]=items.get(i);
-        }
+    public List<Commodity> getOptions(int rid) {
+        List<Commodity> options=commodityRepository.findByRidAndIfValid(rid, true);
         return options;
     }
 
     @Override
     public boolean savePackage(Map<String, Object> map) {
         try {
+            int pid=(Integer)map.get("pid");
             int rid= (Integer)map.get("rid");
             String name=map.get("name").toString();
             Double price = Double.parseDouble(map.get("price").toString());
             LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
             LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
-            Package aPackage=new Package(rid, name, price, beginDate, endDate);
+            String photo=map.get("photo").toString();
+            String description=map.get("description").toString();
+            Package aPackage;
+            if(pid<0){
+                aPackage=new Package(rid, name, price, photo, description, "销售中", true);
+            }else{
+                Package p=packageRepository.findFirstByPid(pid);
+                aPackage=new Package(pid, rid, name, price, photo, description, p.getState(),p.getIfValid());
+            }
             if(hasSamePackage(aPackage)){
                return false;
             }
             aPackage=packageRepository.save(aPackage);
-            int pid=aPackage.getPid();
+            pid=aPackage.getPid();
 
             JSONArray list = JSONArray.fromObject(map.get("items"));
             Iterator<Object> it = list.iterator();
@@ -85,7 +85,7 @@ public class PackageServiceImpl implements PackageService {
         PackageDetail[] packages=new PackageDetail[length];
         for(int i=0;i<length;i++){
             Package aPackage=list.get(i);
-            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getPrice(), aPackage.getBeginDate(), aPackage.getEndDate(), getPackageItems(aPackage.getPid()));
+            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getPrice(), aPackage.getPhoto(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(),getPackageItems(aPackage.getPid()));
         }
         return packages;
     }
@@ -118,7 +118,7 @@ public class PackageServiceImpl implements PackageService {
     private boolean hasSamePackage(Package aPackage){
         List<Package> list=packageRepository.findByRid(aPackage.getRid());
         for(Package p: list){
-            if(p.getName().equals(aPackage.getName())&& !(p.getEndDate().isBefore(aPackage.getBeginDate())||p.getBeginDate().isAfter(aPackage.getEndDate())) ){
+            if(p.getName().equals(aPackage.getName())&&p.getPid()!=aPackage.getPid() ){
                 return true;
             }
         }

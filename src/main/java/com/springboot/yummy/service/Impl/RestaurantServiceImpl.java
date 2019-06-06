@@ -181,9 +181,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         List<Package> plist1 = packageRepository.findByRid(rid);
         List<Package> plist2 = new ArrayList<>();
         for(Package p:plist1){
-            if( !( p.getEndDate().isBefore(LocalDate.now()) || p.getBeginDate().isAfter(LocalDate.now()) ) ){
                 plist2.add(p);
-            }
         }
 
         int plength=plist2.size();
@@ -191,7 +189,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         PackageDetail[] packages=new PackageDetail[plength];
         for(int i=0;i<plength;i++){
             Package aPackage=plist2.get(i);
-            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getPrice(), aPackage.getBeginDate(), aPackage.getEndDate(), getPackageItems(aPackage.getPid()));
+            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getPrice(), aPackage.getPhoto(),aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(), getPackageItems(aPackage.getPid()));
         }
 
         RestaurantDetail restaurantDetail=new RestaurantDetail(restaurant.getRid(), restaurant.getName(), restaurant.getLocation(), restaurant.getRegion(), restaurant.getPhoto(), restaurant.getKind(), commodities, packages, discounts);

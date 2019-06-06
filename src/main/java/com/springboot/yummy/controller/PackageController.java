@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Transactional
@@ -25,11 +26,9 @@ public class PackageController {
 
     @RequestMapping(value = "/getOptions", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public Commodity[] getOptions(@RequestBody Map<String, Object> requestMap){
+    public List<Commodity> getOptions(@RequestBody Map<String, Object> requestMap){
         int rid= Integer.parseInt((String)requestMap.get("rid"));
-        LocalDate beginDate=LocalDate.parse(requestMap.get("beginDate").toString());
-        LocalDate endDate=LocalDate.parse(requestMap.get("endDate").toString());
-        return packageService.getOptions(rid, beginDate, endDate);
+        return packageService.getOptions(rid);
     }
 
     @RequestMapping(value = "/addPackage", method = RequestMethod.POST, headers = "Accept=application/json")

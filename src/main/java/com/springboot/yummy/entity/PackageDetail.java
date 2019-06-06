@@ -2,6 +2,7 @@ package com.springboot.yummy.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 public class PackageDetail {
@@ -9,26 +10,36 @@ public class PackageDetail {
     private int rid;
     private String name;
     private double price;
-    private LocalDate beginDate;
-    private LocalDate endDate;
+    @Column(columnDefinition="varchar(255) default 'https://njuhzl.oss-cn-hangzhou.aliyuncs.com/yummy/defaultLackPic.png'")
+    private String photo;
+    @Column(columnDefinition="varchar(255) default ''")
+    private String description;
+    @Column(columnDefinition="varchar(255) default '销售中'")
+    private String state;
+    @Column(columnDefinition="bit(1) default 1")
+    private boolean ifValid;
     private PackageItem[] items;
 
-    public PackageDetail(int rid, String name, double price, LocalDate beginDate, LocalDate endDate, PackageItem[] items) {
+    public PackageDetail(int rid, String name, double price, String photo, String description, String state, boolean ifValid, PackageItem[] items) {
         this.rid = rid;
         this.name = name;
         this.price = price;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
+        this.photo=photo;
+        this.description=description;
+        this.state=state;
+        this.ifValid=ifValid;
         this.items=items;
     }
 
-    public PackageDetail(int pid, int rid, String name, double price, LocalDate beginDate, LocalDate endDate, PackageItem[] items) {
+    public PackageDetail(int pid, int rid, String name, double price, String photo, String description, String state, boolean ifValid, PackageItem[] items) {
         this.pid=pid;
         this.rid = rid;
         this.name = name;
         this.price = price;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
+        this.photo=photo;
+        this.description=description;
+        this.state=state;
+        this.ifValid=ifValid;
         this.items=items;
     }
 
@@ -66,20 +77,36 @@ public class PackageDetail {
         this.price = price;
     }
 
-    public LocalDate getBeginDate() {
-        return beginDate;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setBeginDate(LocalDate beginDate) {
-        this.beginDate = beginDate;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public String getDescription() {
+        return description;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public boolean getIfValid() {
+        return ifValid;
+    }
+
+    public void setIfValid(boolean ifValid) {
+        this.ifValid = ifValid;
     }
 
     public PackageItem[] getItems() {
