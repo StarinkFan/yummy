@@ -15,17 +15,23 @@ public class PackageItem {
     private double price;
     @Column(columnDefinition="varchar(255) default '主食'")
     private String kind;
+    @Column(columnDefinition="varchar(255) default 'https://njuhzl.oss-cn-hangzhou.aliyuncs.com/yummy/defaultLackPic.png'")
+    private String photo;
+    @Column(columnDefinition="varchar(255) default ''")
+    private String description;
 
-    public PackageItem(int pid, int cid, int num, String name, double price, String kind) {
+    public PackageItem(int pid, int cid, int num, String name, double price, String kind, String photo, String description) {
         this.pid = pid;
         this.cid = cid;
         this.num=num;
         this.name = name;
         this.price = price;
         this.kind=kind;
+        this.photo=photo;
+        this.description=description;
     }
 
-    public PackageItem(int piid, int pid, int cid, int num, String name, double price, String kind) {
+    public PackageItem(int piid, int pid, int cid, int num, String name, double price, String kind, String photo, String description) {
         this.piid = piid;
         this.pid = pid;
         this.cid = cid;
@@ -33,6 +39,8 @@ public class PackageItem {
         this.name = name;
         this.price = price;
         this.kind=kind;
+        this.photo=photo;
+        this.description=description;
     }
 
     public PackageItem(){}
@@ -91,5 +99,21 @@ public class PackageItem {
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

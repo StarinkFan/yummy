@@ -43,14 +43,13 @@ public class PackageServiceImpl implements PackageService {
             Double price = Double.parseDouble(map.get("price").toString());
             LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
             LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
-            String photo=map.get("photo").toString();
             String description=map.get("description").toString();
             Package aPackage;
             if(pid<0){
-                aPackage=new Package(rid, name, 0,price, photo, description, "销售中", true);
+                aPackage=new Package(rid, name, 0,price,  description, "销售中", true);
             }else{
                 Package p=packageRepository.findFirstByPid(pid);
-                aPackage=new Package(pid, rid, name, 0,price, photo, description, p.getState(),p.getIfValid());
+                aPackage=new Package(pid, rid, name, 0,price, description, p.getState(),p.getIfValid());
             }
             if(hasSamePackage(aPackage)){
                return false;
@@ -67,7 +66,9 @@ public class PackageServiceImpl implements PackageService {
                 String iname = ob.getString("name");
                 String kind = ob.getString("kind");
                 Double iprice = ob.getDouble("price");
-                packageItemRepository.save(new PackageItem(pid, cid, num, iname, iprice, kind));
+                String photo = ob.getString("photo");
+                String iDescription = ob.getString("description");
+                packageItemRepository.save(new PackageItem(pid, cid, num, iname, iprice, kind, photo, iDescription));
             }
 
             return true;
@@ -85,7 +86,7 @@ public class PackageServiceImpl implements PackageService {
         PackageDetail[] packages=new PackageDetail[length];
         for(int i=0;i<length;i++){
             Package aPackage=list.get(i);
-            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getPhoto(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(),getPackageItems(aPackage.getPid()));
+            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(),getPackageItems(aPackage.getPid()));
         }
         return packages;
     }

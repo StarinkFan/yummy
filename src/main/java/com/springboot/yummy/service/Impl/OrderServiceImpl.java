@@ -214,7 +214,7 @@ public class OrderServiceImpl implements OrderService {
        List<OrderPackage> list1=orderPackageRepository.findByOid(oid);
        List<PackageDetail> packages=new ArrayList<>();
        for(OrderPackage aPackage:list1){
-           packages.add(new PackageDetail(aPackage.getPid(), order.getRid(), aPackage.getName(), 0,aPackage.getPrice(), null, null,null,true, getPackageItems(aPackage.getPid())));
+           packages.add(new PackageDetail(aPackage.getPid(), order.getRid(), aPackage.getName(), 0,aPackage.getPrice(),  null,null,true, getPackageItems(aPackage.getPid())));
        }
        return new OrderDetail(order, commodities, packages);
     }

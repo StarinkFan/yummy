@@ -51,6 +51,7 @@ public class CommodityServiceImpl implements CommodityService {
             }
             if(!hasSameCommodity(commodity)){
                 Commodity savedCommodity=commodityRepository.save(commodity);
+                adjustCommodityInPackages(savedCommodity);
                 return savedCommodity.getCid();
             }else{
                 return -2;
@@ -121,5 +122,16 @@ public class CommodityServiceImpl implements CommodityService {
             }
         }
         return false;
+    }
+
+    private void adjustCommodityInPackages(Commodity commodity){
+        List<PackageItem> items=packageItemRepository.findAll();
+        for(PackageItem item: items){
+            if(item.getCid()==commodity.getCid()) {
+                item.setKind(commodity.getKind());
+                item.setName(commodity.getName());
+                item.setPrice(commodity.getPrice());
+            }
+        }
     }
 }

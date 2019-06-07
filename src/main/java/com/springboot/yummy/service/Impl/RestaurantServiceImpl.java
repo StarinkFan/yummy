@@ -189,7 +189,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         PackageDetail[] packages=new PackageDetail[plength];
         for(int i=0;i<plength;i++){
             Package aPackage=plist2.get(i);
-            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getPhoto(),aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(), getPackageItems(aPackage.getPid()));
+            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(), getPackageItems(aPackage.getPid()));
         }
 
         RestaurantDetail restaurantDetail=new RestaurantDetail(restaurant.getRid(), restaurant.getName(), restaurant.getLocation(), restaurant.getRegion(), restaurant.getPhoto(), restaurant.getKind(), commodities, packages, discounts);

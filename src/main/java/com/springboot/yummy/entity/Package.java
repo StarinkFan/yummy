@@ -16,8 +16,6 @@ public class Package {
     @Column(columnDefinition="int default 0")
     private int sold;
     private double price;
-    @Column(columnDefinition="varchar(255) default 'https://njuhzl.oss-cn-hangzhou.aliyuncs.com/yummy/defaultLackPic.png'")
-    private String photo;
     @Column(columnDefinition="varchar(255) default ''")
     private String description;
     @Column(columnDefinition="varchar(255) default '销售中'")
@@ -25,24 +23,22 @@ public class Package {
     @Column(columnDefinition="bit(1) default 1")
     private boolean ifValid;
 
-    public Package(int rid, String name, int sold, double price, String photo, String description, String state, boolean ifValid) {
+    public Package(int rid, String name, int sold, double price, String description, String state, boolean ifValid) {
         this.rid = rid;
         this.name = name;
         this.sold=sold;
         this.price = price;
-        this.photo=photo;
         this.description=description;
         this.state=state;
         this.ifValid=ifValid;
     }
 
-    public Package(int pid, int rid, String name, int sold, double price, String photo, String description, String state, boolean ifValid) {
+    public Package(int pid, int rid, String name, int sold, double price, String description, String state, boolean ifValid) {
         this.pid=pid;
         this.rid = rid;
         this.name = name;
         this.sold=sold;
         this.price = price;
-        this.photo=photo;
         this.description=description;
         this.state=state;
         this.ifValid=ifValid;
@@ -80,14 +76,6 @@ public class Package {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getDescription() {
