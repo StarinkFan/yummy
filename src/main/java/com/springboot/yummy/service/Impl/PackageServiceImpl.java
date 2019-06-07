@@ -47,10 +47,10 @@ public class PackageServiceImpl implements PackageService {
             String description=map.get("description").toString();
             Package aPackage;
             if(pid<0){
-                aPackage=new Package(rid, name, price, photo, description, "销售中", true);
+                aPackage=new Package(rid, name, 0,price, photo, description, "销售中", true);
             }else{
                 Package p=packageRepository.findFirstByPid(pid);
-                aPackage=new Package(pid, rid, name, price, photo, description, p.getState(),p.getIfValid());
+                aPackage=new Package(pid, rid, name, 0,price, photo, description, p.getState(),p.getIfValid());
             }
             if(hasSamePackage(aPackage)){
                return false;
@@ -85,7 +85,7 @@ public class PackageServiceImpl implements PackageService {
         PackageDetail[] packages=new PackageDetail[length];
         for(int i=0;i<length;i++){
             Package aPackage=list.get(i);
-            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getPrice(), aPackage.getPhoto(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(),getPackageItems(aPackage.getPid()));
+            packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getPhoto(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(),getPackageItems(aPackage.getPid()));
         }
         return packages;
     }

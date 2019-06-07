@@ -9,6 +9,8 @@ public class PackageDetail {
     private int pid;
     private int rid;
     private String name;
+    @Column(columnDefinition="int default 0")
+    private int sold;
     private double price;
     @Column(columnDefinition="varchar(255) default 'https://njuhzl.oss-cn-hangzhou.aliyuncs.com/yummy/defaultLackPic.png'")
     private String photo;
@@ -20,9 +22,10 @@ public class PackageDetail {
     private boolean ifValid;
     private PackageItem[] items;
 
-    public PackageDetail(int rid, String name, double price, String photo, String description, String state, boolean ifValid, PackageItem[] items) {
+    public PackageDetail(int rid, String name, int sold, double price, String photo, String description, String state, boolean ifValid, PackageItem[] items) {
         this.rid = rid;
         this.name = name;
+        this.sold=sold;
         this.price = price;
         this.photo=photo;
         this.description=description;
@@ -31,10 +34,11 @@ public class PackageDetail {
         this.items=items;
     }
 
-    public PackageDetail(int pid, int rid, String name, double price, String photo, String description, String state, boolean ifValid, PackageItem[] items) {
+    public PackageDetail(int pid, int rid, String name, int sold, double price, String photo, String description, String state, boolean ifValid, PackageItem[] items) {
         this.pid=pid;
         this.rid = rid;
         this.name = name;
+        this.sold=sold;
         this.price = price;
         this.photo=photo;
         this.description=description;
@@ -115,5 +119,13 @@ public class PackageDetail {
 
     public void setItems(PackageItem[] items) {
         this.items = items;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
     }
 }

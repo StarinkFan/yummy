@@ -13,6 +13,8 @@ public class Package {
     private int pid;
     private int rid;
     private String name;
+    @Column(columnDefinition="int default 0")
+    private int sold;
     private double price;
     @Column(columnDefinition="varchar(255) default 'https://njuhzl.oss-cn-hangzhou.aliyuncs.com/yummy/defaultLackPic.png'")
     private String photo;
@@ -23,9 +25,10 @@ public class Package {
     @Column(columnDefinition="bit(1) default 1")
     private boolean ifValid;
 
-    public Package(int rid, String name, double price, String photo, String description, String state, boolean ifValid) {
+    public Package(int rid, String name, int sold, double price, String photo, String description, String state, boolean ifValid) {
         this.rid = rid;
         this.name = name;
+        this.sold=sold;
         this.price = price;
         this.photo=photo;
         this.description=description;
@@ -33,10 +36,11 @@ public class Package {
         this.ifValid=ifValid;
     }
 
-    public Package(int pid, int rid, String name, double price, String photo, String description, String state, boolean ifValid) {
+    public Package(int pid, int rid, String name, int sold, double price, String photo, String description, String state, boolean ifValid) {
         this.pid=pid;
         this.rid = rid;
         this.name = name;
+        this.sold=sold;
         this.price = price;
         this.photo=photo;
         this.description=description;
@@ -108,5 +112,13 @@ public class Package {
 
     public void setIfValid(boolean ifValid) {
         this.ifValid = ifValid;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
     }
 }
