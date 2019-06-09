@@ -50,7 +50,16 @@ public class CommodityController {
     @ResponseBody
     public boolean invalidate(@RequestBody Map<String, Object> requestMap){
         int cid= (Integer)requestMap.get("cid");
-        return commodityService.validate(cid);
+        return commodityService.invalidate(cid);
+    }
+
+    @RequestMapping(value = "/hasSameName", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean hasSameName(@RequestBody Map<String, Object> requestMap){
+        int rid= Integer.parseInt((String)requestMap.get("rid"));
+        int cid= (Integer)requestMap.get("cid");
+        String name= (String) requestMap.get("name");
+        return commodityService.hasSameName(rid, cid, name);
     }
 
 }

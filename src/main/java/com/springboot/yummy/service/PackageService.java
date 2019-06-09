@@ -18,4 +18,6 @@ public interface PackageService {
 
     boolean deletePackage(int pid);
 
+    boolean hasSameName(int rid, int pid, String  name);
+
 }

@@ -51,7 +51,7 @@ public class PackageServiceImpl implements PackageService {
                 Package p=packageRepository.findFirstByPid(pid);
                 aPackage=new Package(pid, rid, name, 0,price, description, p.getState(),p.getIfValid());
             }
-            if(hasSamePackage(aPackage)){
+            if(hasSameName(aPackage.getRid(), aPackage.getPid(),aPackage.getName())){
                return false;
             }
             aPackage=packageRepository.save(aPackage);
@@ -116,10 +116,11 @@ public class PackageServiceImpl implements PackageService {
         return packageItems;
     }
 
-    private boolean hasSamePackage(Package aPackage){
-        List<Package> list=packageRepository.findByRid(aPackage.getRid());
+    @Override
+    public boolean hasSameName(int rid, int pid, String name){
+        List<Package> list=packageRepository.findByRid(rid);
         for(Package p: list){
-            if(p.getName().equals(aPackage.getName())&&p.getPid()!=aPackage.getPid() ){
+            if(p.getName().equals(name)&&p.getPid()!=pid ){
                 return true;
             }
         }

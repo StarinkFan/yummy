@@ -49,7 +49,7 @@ public class CommodityServiceImpl implements CommodityService {
                 Commodity commodity1=commodityRepository.findFirstByCid(cid);
                 commodity=new Commodity(cid, rid, name, price, kind, commodity1.getSold(), photo, description, commodity1.getState(), commodity1.getIfValid());
             }
-            if(!hasSameCommodity(commodity)){
+            if(!hasSameName(commodity.getRid(), commodity.getCid(), commodity.getName())){
                 Commodity savedCommodity=commodityRepository.save(commodity);
                 adjustCommodityInPackages(savedCommodity);
                 return savedCommodity.getCid();
@@ -63,10 +63,11 @@ public class CommodityServiceImpl implements CommodityService {
         }
     }
 
-    private boolean hasSameCommodity(Commodity commodity){
-        List<Commodity> list=commodityRepository.findByRid(commodity.getRid());
+    @Override
+    public boolean hasSameName(int rid, int cid, String name){
+        List<Commodity> list=commodityRepository.findByRid(rid);
         for(Commodity c: list){
-            if(c.getName().equals(commodity.getName())&&c.getCid()!=commodity.getCid() ){
+            if(c.getName().equals(name)&&c.getCid()!=cid ){
                 return true;
             }
         }

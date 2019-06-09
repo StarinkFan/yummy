@@ -15,4 +15,6 @@ public interface CommodityService {
     boolean validate(int cid);
 
     boolean invalidate(int cid);
+
+    boolean hasSameName(int rid, int cid, String  name);
 }
