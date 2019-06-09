@@ -60,4 +60,17 @@ public class PackageController {
         return packageService.hasSameName(rid, pid, name);
     }
 
+    @RequestMapping(value = "/validate", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean validate(@RequestBody Map<String, Object> requestMap){
+        int pid= (Integer)requestMap.get("pid");
+        return packageService.validate(pid);
+    }
+
+    @RequestMapping(value = "/invalidate", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean invalidate(@RequestBody Map<String, Object> requestMap){
+        int pid= (Integer)requestMap.get("pid");
+        return packageService.invalidate(pid);
+    }
 }

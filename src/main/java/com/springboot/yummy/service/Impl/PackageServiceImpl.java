@@ -126,4 +126,28 @@ public class PackageServiceImpl implements PackageService {
         }
         return false;
     }
+
+    @Override
+    public boolean validate(int pid) {
+        try {
+            Package p=packageRepository.findFirstByPid(pid);
+            p.setIfValid(true);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean invalidate(int pid) {
+        try {
+            Package p=packageRepository.findFirstByPid(pid);
+            p.setIfValid(false);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

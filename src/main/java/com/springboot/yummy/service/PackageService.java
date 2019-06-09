@@ -20,4 +20,7 @@ public interface PackageService {
 
     boolean hasSameName(int rid, int pid, String  name);
 
+    boolean validate(int pid);
+
+    boolean invalidate(int pid);
 }
