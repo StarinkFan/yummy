@@ -41,8 +41,6 @@ public class PackageServiceImpl implements PackageService {
             int rid= (Integer)map.get("rid");
             String name=map.get("name").toString();
             Double price = Double.parseDouble(map.get("price").toString());
-            LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
-            LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
             String description=map.get("description").toString();
             Package aPackage;
             if(pid<0){

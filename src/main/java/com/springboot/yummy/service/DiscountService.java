@@ -14,4 +14,6 @@ public interface DiscountService {
     boolean validate(int cid);
 
     boolean invalidate(int cid);
+
+    boolean hasSameDiscount(int rid, int did, int total);
 }

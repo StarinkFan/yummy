@@ -30,16 +30,20 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public int saveDiscount(Map<String, Object> map) {
         try {
+            int did=(Integer)map.get("did");
             int rid= (Integer)map.get("rid");
             int total= Integer.parseInt((String)map.get("total"));
             int dis= Integer.parseInt((String)map.get("discount"));
             if(total<dis){
                 return -2;
             }
-            LocalDate beginDate=LocalDate.parse(map.get("beginDate").toString());
-            LocalDate endDate=LocalDate.parse(map.get("endDate").toString());
             Discount discount;
-            discount=new Discount(rid, total, dis, 0, "使用中", true);
+            if(did<0){
+                discount=new Discount(rid, total, dis, 0, "使用中", true);
+            }else{
+                Discount d1=discountRepository.findFirstByDid(did);
+                discount=new Discount(did, rid, total, dis, d1.getTime(), d1.getState(), d1.isIfValid());
+            }
             if(!hasSameDiscount(discount.getRid(), discount.getDid(), discount.getTotal())){
                 Discount savedDiscount=discountRepository.save(discount);
                 return savedDiscount.getDid();
@@ -90,7 +94,8 @@ public class DiscountServiceImpl implements DiscountService {
         }
     }
 
-    private boolean hasSameDiscount(int rid, int did, int total){
+    @Override
+    public boolean hasSameDiscount(int rid, int did, int total){
         List<Discount> list=discountRepository.findByRid(rid);
         for(Discount d: list){
             if(d.getTotal()==total&&d.getDid()!=did ){

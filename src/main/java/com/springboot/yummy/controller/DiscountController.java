@@ -39,4 +39,26 @@ public class DiscountController {
         return discountService.deleteDiscount(did);
     }
 
+    @RequestMapping(value = "/validate", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean validate(@RequestBody Map<String, Object> requestMap){
+        int did= (Integer)requestMap.get("did");
+        return discountService.validate(did);
+    }
+
+    @RequestMapping(value = "/invalidate", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean invalidate(@RequestBody Map<String, Object> requestMap){
+        int did= (Integer)requestMap.get("did");
+        return discountService.invalidate(did);
+    }
+
+    @RequestMapping(value = "/hasSameName", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean hasSameName(@RequestBody Map<String, Object> requestMap){
+        int rid= Integer.parseInt((String)requestMap.get("rid"));
+        int did= (Integer)requestMap.get("did");
+        int total = Integer.parseInt((String)requestMap.get("total"));
+        return discountService.hasSameDiscount(rid, did, total);
+    }
 }
