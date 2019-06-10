@@ -32,8 +32,8 @@ public class DiscountServiceImpl implements DiscountService {
         try {
             int did=(Integer)map.get("did");
             int rid= (Integer)map.get("rid");
-            int total= Integer.parseInt((String)map.get("total"));
-            int dis= Integer.parseInt((String)map.get("discount"));
+            int total= (Integer)map.get("total");
+            int dis= (Integer)map.get("discount");
             if(total<dis){
                 return -2;
             }

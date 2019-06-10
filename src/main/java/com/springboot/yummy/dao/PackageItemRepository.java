@@ -9,4 +9,6 @@ import java.util.List;
 @Transactional
 public interface PackageItemRepository  extends JpaRepository<PackageItem, String> {
     List<PackageItem> findByPid(int pid);
+
+    void deleteAllByPid(int pid);
 }

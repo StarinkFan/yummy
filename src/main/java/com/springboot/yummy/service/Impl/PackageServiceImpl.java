@@ -55,6 +55,7 @@ public class PackageServiceImpl implements PackageService {
             aPackage=packageRepository.save(aPackage);
             pid=aPackage.getPid();
 
+            packageItemRepository.deleteAllByPid(pid);
             JSONArray list = JSONArray.fromObject(map.get("items"));
             Iterator<Object> it = list.iterator();
             while (it.hasNext()) {
