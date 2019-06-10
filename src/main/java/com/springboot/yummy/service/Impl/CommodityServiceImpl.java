@@ -93,6 +93,7 @@ public class CommodityServiceImpl implements CommodityService {
         try {
             Commodity c=commodityRepository.findFirstByCid(cid);
             c.setIfValid(true);
+            c.setState("销售中");
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -108,6 +109,7 @@ public class CommodityServiceImpl implements CommodityService {
             }
             Commodity c=commodityRepository.findFirstByCid(cid);
             c.setIfValid(false);
+            c.setState("已下架");
             return true;
         }catch (Exception e){
             e.printStackTrace();

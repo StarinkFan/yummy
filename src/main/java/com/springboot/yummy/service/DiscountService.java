@@ -10,4 +10,8 @@ public interface DiscountService {
     int saveDiscount(Map<String, Object> map);
 
     boolean deleteDiscount(int did);
+
+    boolean validate(int cid);
+
+    boolean invalidate(int cid);
 }

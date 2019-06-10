@@ -173,9 +173,7 @@ public class OrderServiceImpl implements OrderService {
         List<Discount> list1=discountRepository.findByRid(rid);
         List<Discount> list2=new ArrayList<>();
         for(Discount d:list1){
-            if(!(d.getEndDate().isBefore(LocalDate.now())||d.getBeginDate().isAfter(LocalDate.now()))){
                 list2.add(d);
-            }
         }
         for(Discount d:list2){
             if(total>=d.getTotal()&&discount<d.getDiscount()){

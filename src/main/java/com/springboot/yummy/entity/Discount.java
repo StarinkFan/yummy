@@ -14,26 +14,30 @@ public class Discount {
     private int rid;
     private int total;
     private int discount;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate beginDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
+    @Column(columnDefinition="int default 0")
+    private int time;
+    @Column(columnDefinition="varchar(255) default '使用中'")
+    private String state;
+    @Column(columnDefinition="bit(1) default 1")
+    private boolean ifValid;
 
-    public Discount(int rid, int total, int discount, LocalDate beginDate, LocalDate endDate) {
+    public Discount(int rid, int total, int discount, int time, String state, boolean ifValid) {
         this.rid = rid;
         this.total = total;
         this.discount = discount;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
+        this.time=time;
+        this.state=state;
+        this.ifValid=ifValid;
     }
 
-    public Discount(int did, int rid, int total, int discount, LocalDate beginDate, LocalDate endDate) {
+    public Discount(int did, int rid, int total, int discount, int time, String state, boolean ifValid) {
         this.did=did;
         this.rid = rid;
         this.total = total;
         this.discount = discount;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
+        this.time=time;
+        this.state=state;
+        this.ifValid=ifValid;
     }
 
     public Discount(){}
@@ -70,19 +74,27 @@ public class Discount {
         this.discount = discount;
     }
 
-    public LocalDate getBeginDate() {
-        return beginDate;
+    public int getTime() {
+        return time;
     }
 
-    public void setBeginDate(LocalDate beginDate) {
-        this.beginDate = beginDate;
+    public void setTime(int time) {
+        this.time = time;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public String getState() {
+        return state;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public boolean isIfValid() {
+        return ifValid;
+    }
+
+    public void setIfValid(boolean ifValid) {
+        this.ifValid = ifValid;
     }
 }

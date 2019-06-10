@@ -132,6 +132,7 @@ public class PackageServiceImpl implements PackageService {
         try {
             Package p=packageRepository.findFirstByPid(pid);
             p.setIfValid(true);
+            p.setState("销售中");
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -144,6 +145,7 @@ public class PackageServiceImpl implements PackageService {
         try {
             Package p=packageRepository.findFirstByPid(pid);
             p.setIfValid(false);
+            p.setState("已下架");
             return true;
         }catch (Exception e){
             e.printStackTrace();

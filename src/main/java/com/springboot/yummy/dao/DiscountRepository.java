@@ -8,5 +8,7 @@ import java.util.List;
 public interface DiscountRepository extends JpaRepository<Discount,String> {
     List<Discount> findByRid(int rid);
 
+    Discount findFirstByDid(int did);
+
     void deleteByDid(int did);
 }

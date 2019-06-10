@@ -168,9 +168,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         List<Discount> dlist1=discountRepository.findByRid(rid);
         List<Discount> dlist2=new ArrayList<>();
         for(Discount d:dlist1){
-            if(!(d.getEndDate().isBefore(LocalDate.now())||d.getBeginDate().isAfter(LocalDate.now()))){
                 dlist2.add(d);
-            }
         }
         int dlength=dlist2.size();
         Discount[] discounts=new Discount[dlength];
