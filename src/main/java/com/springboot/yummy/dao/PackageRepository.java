@@ -9,6 +9,7 @@ import java.util.List;
 @Transactional
 public interface PackageRepository extends JpaRepository<Package, String> {
     List<Package> findByRid(int rid);
+    List<Package> findByRidAndIfValid(int rid, boolean ifValid);
     void deleteByPid(int pid);
     Package findFirstByPid(int pid);
 

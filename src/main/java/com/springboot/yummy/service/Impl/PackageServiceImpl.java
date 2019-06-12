@@ -79,13 +79,19 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public PackageDetail[] getPackages(int rid) {
-        List<Package> list = packageRepository.findByRid(rid);
+        List<Package> list1 = packageRepository.findByRidAndIfValid(rid, true);
+        List<Package> list2 = packageRepository.findByRidAndIfValid(rid, false);
 
-        int length=list.size();
-        PackageDetail[] packages=new PackageDetail[length];
-        for(int i=0;i<length;i++){
-            Package aPackage=list.get(i);
+        int length1=list1.size();
+        int length2=list2.size();
+        PackageDetail[] packages=new PackageDetail[length1+length2];
+        for(int i=0;i<length1;i++){
+            Package aPackage=list1.get(i);
             packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(),getPackageItems(aPackage.getPid()));
+        }
+        for(int i=0;i<length2;i++){
+            Package aPackage=list2.get(i);
+            packages[length1+i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(),getPackageItems(aPackage.getPid()));
         }
         return packages;
     }

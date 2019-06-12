@@ -23,11 +23,16 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Commodity[] getCommodities(int rid) {
-        List<Commodity> list = commodityRepository.findByRid(rid);
-        int length=list.size();
-        Commodity[] commodities=new Commodity[length];
-        for(int i=0;i<length;i++){
-            commodities[i]=list.get(i);
+        List<Commodity> list1 = commodityRepository.findByRidAndIfValid(rid, true);
+        List<Commodity> list2 = commodityRepository.findByRidAndIfValid(rid, false);
+        int length1=list1.size();
+        int length2=list2.size();
+        Commodity[] commodities=new Commodity[length1+length2];
+        for(int i=0;i<length1;i++){
+            commodities[i]=list1.get(i);
+        }
+        for(int i=0;i<length2;i++){
+            commodities[length1+i]=list2.get(i);
         }
         return commodities;
     }
