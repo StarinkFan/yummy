@@ -92,7 +92,7 @@ public class RestaurantController {
     @RequestMapping(value = "/getRestaurantDetailByUser", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
     public RestaurantDetail getRestaurantDetailByUser(@RequestBody Map<String, Object> requestMap){
-        int rid= (Integer)requestMap.get("rid");
+        int rid= Integer.parseInt((String)requestMap.get("rid"));
         return restaurantService.getRestaurantDetailByUser(rid);
     }
 
