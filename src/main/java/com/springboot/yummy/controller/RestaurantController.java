@@ -83,11 +83,11 @@ public class RestaurantController {
         return restaurantService.getIdCode(owner);
     }
 
-    @RequestMapping(value = "/getRestaurantList", method = RequestMethod.GET, headers = "Accept=application/json")
+/*    @RequestMapping(value = "/getRestaurantList", method = RequestMethod.GET, headers = "Accept=application/json")
     @ResponseBody
     public Restaurant[] getRestaurantList(){
         return restaurantService.getRestaurantList();
-    }
+    }*/
 
     @RequestMapping(value = "/getRestaurantDetailByUser", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody

@@ -10,10 +10,7 @@ import com.springboot.yummy.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ public class newController {
     @Autowired
     PackageService packageService;
 
-    @RequestMapping("/restaurant/getRestaurnatList")
+    @RequestMapping(value="/restaurant/getRestaurantList", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
     public Restaurant[] getRestaurantList(@RequestBody Map<String,Object> requestMap){
         String cusAddress=requestMap.get("location").toString();
