@@ -3,6 +3,7 @@ package com.springboot.yummy.service;
 import com.springboot.yummy.entity.Restaurant;
 import com.springboot.yummy.entity.RestaurantDetail;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RestaurantService {
@@ -27,4 +28,6 @@ public interface RestaurantService {
     Restaurant[] getRestaurantList();
 
     RestaurantDetail getRestaurantDetailByUser(int rid);
+
+    List<String> getRestaurantAddresses();
 }

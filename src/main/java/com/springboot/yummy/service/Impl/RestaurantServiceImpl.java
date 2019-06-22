@@ -195,6 +195,16 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantDetail;
     }
 
+    @Override
+    public List<String> getRestaurantAddresses() {
+        List<Restaurant> list=restaurantRepository.findAll();
+        List<String> addresses=new ArrayList<>();
+        for(Restaurant restaurant:list){
+            addresses.add(restaurant.getLocation());
+        }
+        return addresses;
+    }
+
     private void setIdCode(Restaurant restaurant){
         String idCode=""+restaurant.getRid();
         int length=idCode.length();
