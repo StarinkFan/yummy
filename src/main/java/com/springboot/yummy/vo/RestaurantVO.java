@@ -12,6 +12,7 @@ public class RestaurantVO {
     private String photo;
     private int kind;
     private int time;
+    private double distance;
 
     public int getRid() {
         return rid;
@@ -28,7 +29,7 @@ public class RestaurantVO {
     public RestaurantVO() {
     }
 
-    public RestaurantVO(int rid, String name, String location, String region, String photo, int kind, int time) {
+    public RestaurantVO(int rid, String name, String location, String region, String photo, int kind, int time,double distance) {
         this.rid = rid;
         this.name = name;
         this.location = location;
@@ -36,6 +37,7 @@ public class RestaurantVO {
         this.photo = photo;
         this.kind = kind;
         this.time = time;
+        this.distance=distance;
     }
 
     public void setName(String name) {
@@ -80,5 +82,13 @@ public class RestaurantVO {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

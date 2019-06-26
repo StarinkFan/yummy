@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class newController {
             s = s * 6371.393;
             s = Math.round(s * 1000);
             int time= (int) (20+s/500);
-            if(time<=45){
+            if(time<=50){
                 RestaurantVO restaurantVO=new RestaurantVO();
                 restaurantVO.setKind(rest.getKind());
                 restaurantVO.setLocation(rest.getLocation());
@@ -64,10 +65,13 @@ public class newController {
                 restaurantVO.setRegion(rest.getRegion());
                 restaurantVO.setRid(rest.getRid());
                 restaurantVO.setTime(time);
+                DecimalFormat df = new DecimalFormat("#.0");
+                restaurantVO.setDistance(Double.parseDouble(df.format(s/1000)));
                 resultRestaurant1.add(restaurantVO);
             }
 
         }
+        System.out.println("筛选时间后剩余："+resultRestaurant1.size());
         if(rKind!=0){
             for(int i=0;i<resultRestaurant1.size();i++){
                 if(resultRestaurant1.get(i).getKind()!=rKind){
@@ -76,6 +80,7 @@ public class newController {
                 }
             }
         }
+        System.out.println("筛选种类后剩余："+resultRestaurant1.size());
         List<RestaurantVO> resultRestaurant2=new ArrayList<>();
         if(!search.equals("")){
             for(int i=0;i<resultRestaurant1.size();i++){
@@ -111,10 +116,25 @@ public class newController {
 
             }
         }
+        else{
+            for(RestaurantVO restaurantVO:resultRestaurant1){
+                resultRestaurant2.add(restaurantVO);
+            }
+        }
         RestaurantVO[] result=new RestaurantVO[resultRestaurant2.size()];
+        for(int i=0;i<resultRestaurant2.size()-1;i++){
+            for(int j=i+1;j<resultRestaurant2.size();j++){
+                if(resultRestaurant2.get(i).getTime()>resultRestaurant2.get(j).getTime()){
+                    RestaurantVO restaurantVO=resultRestaurant2.get(i);
+                    resultRestaurant2.set(i,resultRestaurant2.get(j));
+                    resultRestaurant2.set(j,restaurantVO);
+                }
+            }
+        }
         for(int i=0;i<resultRestaurant2.size();i++){
             result[i]=resultRestaurant2.get(i);
         }
+        System.out.println("筛选搜索后剩余："+result.length);
         return result;
     }
 
