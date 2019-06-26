@@ -54,7 +54,7 @@ public class newController {
                     Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2))));
             s = s * 6371.393;
             s = Math.round(s * 1000);
-            int time= (int) (25+s/240);
+            int time= (int) (20+s/500);
             if(time<=45){
                 RestaurantVO restaurantVO=new RestaurantVO();
                 restaurantVO.setKind(rest.getKind());
@@ -64,6 +64,7 @@ public class newController {
                 restaurantVO.setRegion(rest.getRegion());
                 restaurantVO.setRid(rest.getRid());
                 restaurantVO.setTime(time);
+                resultRestaurant1.add(restaurantVO);
             }
 
         }
