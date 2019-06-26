@@ -87,7 +87,8 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
-    private String getLocation(String address){
+    @Override
+    public String getLocation(String address){
         String str=null;
         Map<String, Object> params = new HashMap<>();
         params.put("address", address);

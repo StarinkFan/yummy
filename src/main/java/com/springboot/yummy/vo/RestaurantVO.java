@@ -4,7 +4,7 @@ package com.springboot.yummy.vo;
  * @Author:Wang Mo
  * @Description：
  */
-public class restaurantVO {
+public class RestaurantVO {
     private int rid;
     private String name;
     private String location;
@@ -25,10 +25,10 @@ public class restaurantVO {
         return name;
     }
 
-    public restaurantVO() {
+    public RestaurantVO() {
     }
 
-    public restaurantVO(int rid, String name, String location, String region, String photo, int kind, int time) {
+    public RestaurantVO(int rid, String name, String location, String region, String photo, int kind, int time) {
         this.rid = rid;
         this.name = name;
         this.location = location;

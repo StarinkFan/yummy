@@ -17,8 +17,10 @@ public class Restaurant {
     private String certificate;
     private boolean ifValid;
     private int kind;
+    private double lat;
+    private double lng;
 
-    public Restaurant(int rid, String name, String password, String idCode, String location, String region, int owner, String photo, String certificate, boolean ifValid, int kind) {
+    public Restaurant(int rid, String name, String password, String idCode, String location, String region, int owner, String photo, String certificate, boolean ifValid, int kind,double lat,double lng) {
         this.password = password;
         this.name = name;
         this.rid=rid;
@@ -30,9 +32,11 @@ public class Restaurant {
         this.ifValid=ifValid;
         this.kind=kind;
         this.region=region;
+        this.lat=lat;
+        this.lng=lng;
     }
 
-    public Restaurant(String name, String password, String idCode, String location, String region, int owner, String photo, String certificate, boolean ifValid, int kind) {
+    public Restaurant(String name, String password, String idCode, String location, String region, int owner, String photo, String certificate, boolean ifValid, int kind,double lat,double lng) {
         this.password = password;
         this.name = name;
         this.idCode=idCode;
@@ -43,6 +47,8 @@ public class Restaurant {
         this.ifValid=ifValid;
         this.kind=kind;
         this.region=region;
+        this.lat=lat;
+        this.lng=lng;
     }
 
     public Restaurant() {
@@ -119,6 +125,22 @@ public class Restaurant {
     }
 
     public void setCertificate(String certificate) { this.certificate=certificate; }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
 
     public boolean getIfValid() { return ifValid; }
 

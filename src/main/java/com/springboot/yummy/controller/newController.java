@@ -7,6 +7,7 @@ import com.springboot.yummy.service.AddressService;
 import com.springboot.yummy.service.CommodityService;
 import com.springboot.yummy.service.PackageService;
 import com.springboot.yummy.service.RestaurantService;
+import com.springboot.yummy.vo.RestaurantVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,17 +36,36 @@ public class newController {
 
     @RequestMapping(value="/restaurant/getRestaurantList", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public Restaurant[] getRestaurantList(@RequestBody Map<String,Object> requestMap){
+    public RestaurantVO[] getRestaurantList(@RequestBody Map<String,Object> requestMap){
         String cusAddress=requestMap.get("location").toString();
         int rKind=Integer.parseInt(requestMap.get("rKind").toString());
         String search=requestMap.get("searchContent").toString();
         Restaurant[] rests=restaurantService.getRestaurantList();
-        List<Restaurant> resultRestaurant1=new ArrayList<>();
+        List<RestaurantVO> resultRestaurant1=new ArrayList<>();
+        String[] cusLocs=addressService.getLocation(cusAddress).split(",");
+        double cusLat=Double.parseDouble(cusLocs[0]);
+        double cusLng=Double.parseDouble(cusLocs[1]);
         for(Restaurant rest:rests){
-            int time=addressService.canConvey(rest.getLocation(),cusAddress);
-            if(time!=-1){
-                resultRestaurant1.add(rest);
+            double radLat1 = rad(cusLat);
+            double radLat2 = rad(rest.getLat());
+            double a = radLat1 - radLat2;
+            double b = rad(cusLng) - rad(rest.getLng());
+            double s = 2 * Math.asin(Math.sqrt(Math.abs(Math.pow(Math.sin(a/2),2) +
+                    Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2))));
+            s = s * 6371.393;
+            s = Math.round(s * 1000);
+            int time= (int) (25+s/240);
+            if(time<=45){
+                RestaurantVO restaurantVO=new RestaurantVO();
+                restaurantVO.setKind(rest.getKind());
+                restaurantVO.setLocation(rest.getLocation());
+                restaurantVO.setName(rest.getName());
+                restaurantVO.setPhoto(rest.getPhoto());
+                restaurantVO.setRegion(rest.getRegion());
+                restaurantVO.setRid(rest.getRid());
+                restaurantVO.setTime(time);
             }
+
         }
         if(rKind!=0){
             for(int i=0;i<resultRestaurant1.size();i++){
@@ -55,10 +75,10 @@ public class newController {
                 }
             }
         }
-        List<Restaurant> resultRestaurant2=new ArrayList<>();
+        List<RestaurantVO> resultRestaurant2=new ArrayList<>();
         if(!search.equals("")){
             for(int i=0;i<resultRestaurant1.size();i++){
-                Restaurant restaurant=resultRestaurant1.get(i);
+                RestaurantVO restaurant=resultRestaurant1.get(i);
                 if(restaurant.getName().contains(search)){
                     resultRestaurant2.add(restaurant);
                     continue;
@@ -90,11 +110,27 @@ public class newController {
 
             }
         }
-        Restaurant[] result=new Restaurant[resultRestaurant2.size()];
+        RestaurantVO[] result=new RestaurantVO[resultRestaurant2.size()];
         for(int i=0;i<resultRestaurant2.size();i++){
             result[i]=resultRestaurant2.get(i);
         }
         return result;
     }
 
+    @RequestMapping("/abccc")
+    @ResponseBody
+    public void change(){
+        Restaurant[] restaurants=restaurantService.getRestaurantList();
+        for(Restaurant restaurant:restaurants){
+            String[] locs=addressService.getLocation(restaurant.getLocation()).split(",");
+            restaurant.setLat(Double.parseDouble(locs[0]));
+            restaurant.setLng(Double.parseDouble(locs[1]));
+            restaurantService.modifyRestaurant(restaurant);
+        }
+    }
+
+    private static double rad(double d)
+    {
+        return d * Math.PI / 180.0;
+    }
 }

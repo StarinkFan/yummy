@@ -30,4 +30,6 @@ public interface RestaurantService {
     RestaurantDetail getRestaurantDetailByUser(int rid);
 
     List<String> getRestaurantAddresses();
+
+    Restaurant modifyRestaurant(Restaurant restaurant);
 }

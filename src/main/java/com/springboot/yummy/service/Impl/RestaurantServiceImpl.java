@@ -54,10 +54,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         try{
             Restaurant restaurant=null;
+            AddressServiceImpl a=new AddressServiceImpl();
+            String loc=a.getLocation(location);
+            String[] locs=loc.split(",");
             if(rid<0){
-                restaurant=new Restaurant(name, password, "", location, region, owner, photo, certificate, false, k);
+
+                restaurant=new Restaurant(name, password, "", location, region, owner, photo, certificate, false, k,Double.parseDouble(locs[0]),Double.parseDouble(locs[1]));
             }else{
-                restaurant=new Restaurant(rid, name, password, "", location, region, owner, photo, certificate, false, k);
+                restaurant=new Restaurant(rid, name, password, "", location, region, owner, photo, certificate, false, k,Double.parseDouble(locs[0]),Double.parseDouble(locs[1]));
             }
             restaurantRepository.save(restaurant);
             return true;
@@ -203,6 +207,11 @@ public class RestaurantServiceImpl implements RestaurantService {
             addresses.add(restaurant.getLocation());
         }
         return addresses;
+    }
+
+    @Override
+    public Restaurant modifyRestaurant(Restaurant restaurant) {
+        return restaurantRepository.saveAndFlush(restaurant);
     }
 
     private void setIdCode(Restaurant restaurant){

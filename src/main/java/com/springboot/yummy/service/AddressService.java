@@ -4,4 +4,6 @@ public interface AddressService {
     String[] getSimilarLocations(String query, String region);
 
     int canConvey(String departure, String target);
+
+    String getLocation(String address);
 }
