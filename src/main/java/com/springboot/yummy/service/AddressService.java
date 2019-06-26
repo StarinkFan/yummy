@@ -6,4 +6,6 @@ public interface AddressService {
     int canConvey(String departure, String target);
 
     String getLocation(String address);
+
+    int[] getDistanceAndTime(String departure, String target);
 }

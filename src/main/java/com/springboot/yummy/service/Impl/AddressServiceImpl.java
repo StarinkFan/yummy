@@ -107,4 +107,36 @@ public class AddressServiceImpl implements AddressService {
         System.out.println(result);
         return result;
     }
+
+    @Override
+    public int[] getDistanceAndTime(String departure, String target) {
+        int[] result=new int[2];
+        String origin=getLocation(departure);
+        String destination=getLocation(target);
+        Map<String, Object> params = new HashMap<>();
+        params.put("origin", origin);
+        params.put("destination", destination);
+        params.put("riding_type", 1);
+        params.put("ak", "yvzxVkAsNqEcTQgkhmfRyaD3n51t0kd2");
+        params.put("output", "json");
+        String str=null;
+        try {
+            str = httpAPIService.doGet("http://api.map.baidu.com/direction/v2/riding", params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(str);
+        JSONObject responseBody = new JSONObject(str);
+        JSONArray array=responseBody.getJSONObject("result").getJSONArray("routes");
+        for(int i=0; i<array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            double distance=obj.getDouble("distance")/1000;
+            double duration=obj.getDouble("duration")/60;
+            result[0]= (int) distance;
+            result[1]= (int) duration;
+        }
+        return result;
+    }
+
+
 }

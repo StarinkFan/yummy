@@ -1,6 +1,7 @@
 package com.springboot.yummy.controller;
 
 import com.springboot.yummy.service.AddressService;
+import com.springboot.yummy.vo.CanConveyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,13 @@ public class AddressController {
 
     @RequestMapping(value = "/canConvey", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public int canConvey(@RequestBody Map<String, Object> requestMap){
+    public CanConveyVO canConvey(@RequestBody Map<String, Object> requestMap){
         String departure = requestMap.get("departure").toString();
         String target = requestMap.get("target").toString();
-        return addressService.canConvey(departure, target);
+        int[] distanceAndTime=addressService.getDistanceAndTime(departure, target);
+        CanConveyVO canConveyVO=new CanConveyVO();
+        canConveyVO.setDistance(distanceAndTime[0]);
+        canConveyVO.setTime(distanceAndTime[1]);
+        return canConveyVO;
     }
 }
