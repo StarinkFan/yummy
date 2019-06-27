@@ -1,9 +1,12 @@
 package com.springboot.yummy.service.Impl;
 
+import com.springboot.yummy.dao.TargetRepository;
+import com.springboot.yummy.entity.Target;
 import com.springboot.yummy.service.AddressService;
 import com.springboot.yummy.util.HttpAPIService;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +17,8 @@ import java.util.*;
 public class AddressServiceImpl implements AddressService {
     @Resource
     private HttpAPIService httpAPIService;
+    @Autowired
+    TargetRepository targetRepository;
 
     @Override
     public String[] getSimilarLocations(String query, String region) {
@@ -167,6 +172,16 @@ public class AddressServiceImpl implements AddressService {
         result[0]= Double.parseDouble(df.format(s/1000));
         result[1]= time;
         return result;
+    }
+
+    @Override
+    public boolean addUserTarget(int uid, String location, String region) {
+        Target target=new Target();
+        target.setLocation(location);
+        target.setUid(uid);
+        target.setRegion(region);
+        targetRepository.save(target);
+        return true;
     }
 
     private static double rad(double d)

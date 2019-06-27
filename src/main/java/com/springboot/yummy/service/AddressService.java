@@ -8,4 +8,6 @@ public interface AddressService {
     String getLocation(String address);
 
     double[] getDistanceAndTime(String departure, String target);
+
+    boolean addUserTarget(int uid,String location,String region);
 }

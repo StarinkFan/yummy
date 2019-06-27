@@ -7,6 +7,7 @@ import com.springboot.yummy.service.*;
 import com.springboot.yummy.vo.CommodityVO;
 import com.springboot.yummy.vo.PackageVO;
 import com.springboot.yummy.vo.RestaurantVO;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -164,8 +165,8 @@ public class newController {
     public boolean changeCart(@RequestBody Map<String,Object> requsetMap){
         int uid=Integer.parseInt(requsetMap.get("uid").toString());
         int rid=Integer.parseInt(requsetMap.get("rid").toString());
-        List<CommodityVO> commodityVOS= (List<CommodityVO>) requsetMap.get("commodities");
-        List<PackageVO> packageVOS= (List<PackageVO>) requsetMap.get("packages");
+        List<CommodityVO> commodityVOS= (List<CommodityVO>) JSONArray.toCollection(JSONArray.fromObject(requsetMap.get("commodities").toString()),CommodityVO.class);
+        List<PackageVO> packageVOS= (List<PackageVO>) JSONArray.toCollection(JSONArray.fromObject(requsetMap.get("packages").toString()),PackageVO.class);
         for(CommodityVO commodityVO:commodityVOS){
             cartService.changeCommodityCart(uid,rid,commodityVO.getCid(),commodityVO.getNum());
         }

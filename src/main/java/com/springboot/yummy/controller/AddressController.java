@@ -38,4 +38,14 @@ public class AddressController {
         canConveyVO.setTime((int) distanceAndTime[1]);
         return canConveyVO;
     }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean addTargets(@RequestBody Map<String,Object> requstMap){
+        int uid=Integer.parseInt(requstMap.get("uid").toString());
+        String location=requstMap.get("location").toString();
+        String region=requstMap.get("region").toString();
+        addressService.addUserTarget(uid,location,region);
+        return true;
+    }
 }
