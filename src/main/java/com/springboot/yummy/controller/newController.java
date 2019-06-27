@@ -3,10 +3,9 @@ package com.springboot.yummy.controller;
 import com.springboot.yummy.entity.Commodity;
 import com.springboot.yummy.entity.PackageDetail;
 import com.springboot.yummy.entity.Restaurant;
-import com.springboot.yummy.service.AddressService;
-import com.springboot.yummy.service.CommodityService;
-import com.springboot.yummy.service.PackageService;
-import com.springboot.yummy.service.RestaurantService;
+import com.springboot.yummy.service.*;
+import com.springboot.yummy.vo.CommodityVO;
+import com.springboot.yummy.vo.PackageVO;
 import com.springboot.yummy.vo.RestaurantVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +33,8 @@ public class newController {
     CommodityService commodityService;
     @Autowired
     PackageService packageService;
+    @Autowired
+    CartService cartService;
 
     @RequestMapping(value="/restaurant/getRestaurantList", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
@@ -156,5 +157,21 @@ public class newController {
     private static double rad(double d)
     {
         return d * Math.PI / 180.0;
+    }
+
+    @RequestMapping(value="/cart/ChangeCart", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public boolean changeCart(@RequestBody Map<String,Object> requsetMap){
+        int uid=Integer.parseInt(requsetMap.get("uid").toString());
+        int rid=Integer.parseInt(requsetMap.get("rid").toString());
+        List<CommodityVO> commodityVOS= (List<CommodityVO>) requsetMap.get("commodities");
+        List<PackageVO> packageVOS= (List<PackageVO>) requsetMap.get("packages");
+        for(CommodityVO commodityVO:commodityVOS){
+            cartService.changeCommodityCart(uid,rid,commodityVO.getCid(),commodityVO.getNum());
+        }
+        for(PackageVO packageVO:packageVOS){
+            cartService.changePackageCart(uid,rid,packageVO.getPid(),packageVO.getNum());
+        }
+        return true;
     }
 }

@@ -9,20 +9,27 @@ public class RestaurantDetail {
     private int kind;
 
     private Commodity[] commodities;
+    private int[] commodityNum;
     private PackageDetail[] packages;
+    private int[] packageNum;
     private Discount[] discounts;
 
-    public RestaurantDetail(int rid, String name, String location, String region, String photo, int kind, Commodity[] commodities, PackageDetail[] packages, Discount[] discounts) {
+
+    public RestaurantDetail(int rid, String name, String location, String region, String photo, int kind, Commodity[] commodities, int[] commodityNum, PackageDetail[] packages, int[] packageNum, Discount[] discounts) {
+        this.rid = rid;
         this.name = name;
-        this.rid=rid;
-        this.location=location;
-        this.photo=photo;
-        this.kind=kind;
-        this.region=region;
-        this.commodities=commodities;
-        this.packages=packages;
-        this.discounts=discounts;
+        this.location = location;
+        this.region = region;
+        this.photo = photo;
+        this.kind = kind;
+        this.commodities = commodities;
+        this.commodityNum = commodityNum;
+        this.packages = packages;
+        this.packageNum = packageNum;
+        this.discounts = discounts;
     }
+
+
 
     public int getRid() {
         return rid;
@@ -94,5 +101,21 @@ public class RestaurantDetail {
 
     public void setDiscounts(Discount[] discounts) {
         this.discounts = discounts;
+    }
+
+    public int[] getCommodityNum() {
+        return commodityNum;
+    }
+
+    public void setCommodityNum(int[] commodityNum) {
+        this.commodityNum = commodityNum;
+    }
+
+    public int[] getPackageNum() {
+        return packageNum;
+    }
+
+    public void setPackageNum(int[] packageNum) {
+        this.packageNum = packageNum;
     }
 }

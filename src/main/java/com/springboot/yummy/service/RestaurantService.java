@@ -27,7 +27,7 @@ public interface RestaurantService {
 
     Restaurant[] getRestaurantList();
 
-    RestaurantDetail getRestaurantDetailByUser(int rid);
+    RestaurantDetail getRestaurantDetailByUser(int rid,int uid);
 
     List<String> getRestaurantAddresses();
 

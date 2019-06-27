@@ -26,6 +26,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     PackageItemRepository packageItemRepository;
     @Autowired
     DiscountRepository discountRepository;
+    @Autowired
+    CommodityCartRepository commodityCartRepository;
+    @Autowired
+    PackageCartRepository packageCartRepository;
 
     @Override
     public boolean addRestaurant(int rid, String name, String password, String location, String region, int owner, String photo, String certificate, String kind) {
@@ -156,17 +160,25 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantDetail getRestaurantDetailByUser(int rid) {
+    public RestaurantDetail getRestaurantDetailByUser(int rid,int uid) {
         Restaurant restaurant=restaurantRepository.findFirstByRid(rid);
         List<Commodity> clist1=commodityRepository.findByRid(rid);
         List<Commodity> clist2=new ArrayList<>();
         for(Commodity c:clist1){
+            if(c.getState().equals("销售中"))
                 clist2.add(c);
         }
         int clength=clist2.size();
         Commodity[] commodities=new Commodity[clength];
+        int[] commodityNum=new int[clength];
         for(int i=0;i<clength;i++){
             commodities[i]=clist2.get(i);
+            CommodityCart commodityCart=commodityCartRepository.findByCidAndRidAndUid(clist2.get(i).getCid(),clist2.get(i).getRid(),uid);
+            if(commodityCart!=null){
+                commodityNum[i]=commodityCart.getNum();
+            }
+            else
+                commodityNum[i]=0;
         }
 
         List<Discount> dlist1=discountRepository.findByRid(rid);
@@ -183,18 +195,26 @@ public class RestaurantServiceImpl implements RestaurantService {
         List<Package> plist1 = packageRepository.findByRid(rid);
         List<Package> plist2 = new ArrayList<>();
         for(Package p:plist1){
+            if(p.getState().equals("销售中"))
                 plist2.add(p);
         }
 
         int plength=plist2.size();
         System.out.println(plength);
         PackageDetail[] packages=new PackageDetail[plength];
+        int[] packageNum=new int[plength];
         for(int i=0;i<plength;i++){
             Package aPackage=plist2.get(i);
             packages[i]=new PackageDetail(aPackage.getPid(), aPackage.getRid(), aPackage.getName(), aPackage.getSold(), aPackage.getPrice(), aPackage.getDescription(), aPackage.getState(), aPackage.getIfValid(), getPackageItems(aPackage.getPid()));
+            PackageCart packageCart=packageCartRepository.findByPidAndRidAndUid(aPackage.getPid(),aPackage.getRid(),uid);
+            if(packageCart!=null){
+                packageNum[i]=packageCart.getNum();
+            }
+            else
+                packageNum[i]=0;
         }
 
-        RestaurantDetail restaurantDetail=new RestaurantDetail(restaurant.getRid(), restaurant.getName(), restaurant.getLocation(), restaurant.getRegion(), restaurant.getPhoto(), restaurant.getKind(), commodities, packages, discounts);
+        RestaurantDetail restaurantDetail=new RestaurantDetail(restaurant.getRid(), restaurant.getName(), restaurant.getLocation(), restaurant.getRegion(), restaurant.getPhoto(), restaurant.getKind(), commodities,commodityNum, packages,packageNum, discounts);
 
         return restaurantDetail;
     }
