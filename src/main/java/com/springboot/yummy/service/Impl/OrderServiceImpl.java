@@ -52,9 +52,9 @@ public class OrderServiceImpl implements OrderService {
         ArrayList<Integer> pnums=new ArrayList<>();
 
         try{
-            int uid= Integer.parseInt((String)map.get("uid"));
-            int rid= (Integer)map.get("rid");
-            String target= (String)map.get("target");
+            int uid= Integer.parseInt(map.get("uid").toString());
+            int rid= Integer.parseInt(map.get("rid").toString());
+            String target= map.get("target").toString();
 
             JSONArray commodities = JSONArray.fromObject(map.get("commodities"));
             Iterator<Object> it = commodities.iterator();
