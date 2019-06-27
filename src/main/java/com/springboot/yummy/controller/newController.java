@@ -46,6 +46,7 @@ public class newController {
         String[] cusLocs=addressService.getLocation(cusAddress).split(",");
         double cusLat=Double.parseDouble(cusLocs[0]);
         double cusLng=Double.parseDouble(cusLocs[1]);
+
         for(Restaurant rest:rests){
             double radLat1 = rad(cusLat);
             double radLat2 = rad(rest.getLat());
@@ -56,6 +57,8 @@ public class newController {
             s = s * 6371.393;
             s = Math.round(s * 1000);
             int time= (int) (20+s/500);
+
+
             if(time<=50){
                 RestaurantVO restaurantVO=new RestaurantVO();
                 restaurantVO.setKind(rest.getKind());

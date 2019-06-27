@@ -32,10 +32,10 @@ public class AddressController {
     public CanConveyVO canConvey(@RequestBody Map<String, Object> requestMap){
         String departure = requestMap.get("departure").toString();
         String target = requestMap.get("target").toString();
-        int[] distanceAndTime=addressService.getDistanceAndTime(departure, target);
+        double[] distanceAndTime=addressService.getDistanceAndTime(departure, target);
         CanConveyVO canConveyVO=new CanConveyVO();
         canConveyVO.setDistance(distanceAndTime[0]);
-        canConveyVO.setTime(distanceAndTime[1]);
+        canConveyVO.setTime((int) distanceAndTime[1]);
         return canConveyVO;
     }
 }

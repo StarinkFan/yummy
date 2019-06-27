@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service("AddressService")
@@ -52,6 +53,7 @@ public class AddressServiceImpl implements AddressService {
     public int canConvey(String departure, String target) {
         String origin=getLocation(departure);
         String destination=getLocation(target);
+/*
         ArrayList<Double> distances=new ArrayList<>();
         ArrayList<Double> durations=new ArrayList<>();
         Map<String, Object> params = new HashMap<>();
@@ -83,6 +85,21 @@ public class AddressServiceImpl implements AddressService {
         }
         System.out.println(distances.toString());
         System.out.println(durations.toString());
+*/
+        double cusLat=Double.parseDouble(origin.split(",")[0]);
+        double cusLng=Double.parseDouble(origin.split(",")[1]);
+        double radLat1 = rad(cusLat);
+        double radLat2 = rad(Double.parseDouble(destination.split(",")[0]));
+        double a = radLat1 - radLat2;
+        double b = rad(cusLng) - rad(Double.parseDouble(destination.split(",")[1]));
+        double s = 2 * Math.asin(Math.sqrt(Math.abs(Math.pow(Math.sin(a/2),2) +
+                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2))));
+        s = s * 6371.393;
+        s = Math.round(s * 1000);
+        int time= (int) (20+s/500);
+        if(time<=50){
+            return time;
+        }
         return -1;
 
     }
@@ -109,11 +126,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public int[] getDistanceAndTime(String departure, String target) {
-        int[] result=new int[2];
+    public double[] getDistanceAndTime(String departure, String target) {
+        double[] result=new double[2];
         String origin=getLocation(departure);
         String destination=getLocation(target);
-        Map<String, Object> params = new HashMap<>();
+/*        Map<String, Object> params = new HashMap<>();
         params.put("origin", origin);
         params.put("destination", destination);
         params.put("riding_type", 1);
@@ -134,9 +151,26 @@ public class AddressServiceImpl implements AddressService {
             double duration=obj.getDouble("duration")/60;
             result[0]= (int) distance;
             result[1]= (int) duration;
-        }
+        }*/
+        double cusLat=Double.parseDouble(origin.split(",")[0]);
+        double cusLng=Double.parseDouble(origin.split(",")[1]);
+        double radLat1 = rad(cusLat);
+        double radLat2 = rad(Double.parseDouble(destination.split(",")[0]));
+        double a = radLat1 - radLat2;
+        double b = rad(cusLng) - rad(Double.parseDouble(destination.split(",")[1]));
+        double s = 2 * Math.asin(Math.sqrt(Math.abs(Math.pow(Math.sin(a/2),2) +
+                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2))));
+        s = s * 6371.393;
+        s = Math.round(s * 1000);
+        int time= (int) (20+s/500);
+        DecimalFormat df = new DecimalFormat("#.0");
+        result[0]= Double.parseDouble(df.format(s/1000));
+        result[1]= time;
         return result;
     }
 
-
+    private static double rad(double d)
+    {
+        return d * Math.PI / 180.0;
+    }
 }

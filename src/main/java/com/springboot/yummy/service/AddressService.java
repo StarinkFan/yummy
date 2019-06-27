@@ -7,5 +7,5 @@ public interface AddressService {
 
     String getLocation(String address);
 
-    int[] getDistanceAndTime(String departure, String target);
+    double[] getDistanceAndTime(String departure, String target);
 }
