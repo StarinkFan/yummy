@@ -41,7 +41,7 @@ public class Target implements Serializable {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
@@ -58,7 +58,7 @@ public class Target implements Serializable {
     }
 
     public void setRegion(String region) {
-        this.location=region;
+        this.region=region;
     }
 
 }

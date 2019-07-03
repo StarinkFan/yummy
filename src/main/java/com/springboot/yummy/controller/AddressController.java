@@ -45,6 +45,8 @@ public class AddressController {
         int uid=Integer.parseInt(requstMap.get("uid").toString());
         String location=requstMap.get("location").toString();
         String region=requstMap.get("region").toString();
+        System.out.println("location:"+location);
+        System.out.println("region:"+region);
         addressService.addUserTarget(uid,location,region);
         return true;
     }

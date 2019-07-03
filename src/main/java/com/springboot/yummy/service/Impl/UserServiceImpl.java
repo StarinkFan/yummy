@@ -91,6 +91,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         JSONArray list = JSONArray.fromObject(map.get("addresses"));
+        ArrayList<Integer> tids=new ArrayList<>();
         Iterator<Object> it = list.iterator();
         while (it.hasNext()) {
             JSONObject ob = (JSONObject) it.next();
@@ -104,7 +105,15 @@ public class UserServiceImpl implements UserService {
             }else{
                 target=new Target(tid, userid, location, region);
             }
-            targetRepository.save(target);
+            target=targetRepository.save(target);
+            tid=target.getTid();
+            tids.add(tid);
+        }
+        List<Target> targets=targetRepository.findByUid(uid);
+        for(Target t: targets){
+            if(tids.indexOf(t.getTid())<0){
+                targetRepository.delete(t);
+            }
         }
 
 
